@@ -1,0 +1,8 @@
+#include <stdio.h>
+
+#test random
+	printf("RUNNING A RANDOM TEST...\n");
+	char *str = "HELLO, WORLD!";
+
+	str++;
+	ck_assert_str_eq(str, "ELLO, WORLD!");
