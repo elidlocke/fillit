@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/04 13:34:46 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/04 14:14:53 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 
 // end delete
 
+/*
+** Check if a file is properly opened. If not, print an error message.
+*/
 int	check_file_opened(int fd)
 {
 	if (fd == -1)
@@ -30,6 +33,11 @@ int	check_file_opened(int fd)
 	return (0);
 }
 
+
+/*
+** Close a file and check if a file is properly closed.
+** If not, print an error message.
+*/
 int	close_file(int fd)
 {
 	if (close(fd) == -1)
@@ -40,9 +48,22 @@ int	close_file(int fd)
 	return (0);
 }
 
-int	validate_input(char *tetrimino_str, int tetrimino_size)
+
+/*
+** Check the formatting of the input tetrimino for newline
+** characters. If invalid, print an error message.
+*/
+int	validate_newlines(char *tetrimino_str, int tetrimino_size)
 {
-	// need to add more checks here !
+	int newline_placement = tetrimino_size;
+	while ((newline_placement = newline_placement/5))
+	{
+		if (tetrimino_str[tetrimino_size - 1] != '\n')
+		{
+			ft_putstr("error\n");
+			return (1);
+		}
+	}
 	if (tetrimino_str[tetrimino_size] != '\n')
 	{
 		ft_putstr("error\n");
@@ -60,7 +81,12 @@ int check_tetrimino_count(int count)
 	return (0);
 }
 
-// change return to t_list
+/*
+** Reads a file that has already been opened and if the file
+** is valid, returns a t_list with the individual tetriminoes.
+*/
+
+// note: change return to t_list
 t_list	*read_tetriminoes(int fd, char *tetrimino_str,
 					int tetrimino_size)
 {
@@ -70,7 +96,7 @@ t_list	*read_tetriminoes(int fd, char *tetrimino_str,
 	tetrimino_count = 0;	
 	while ((ret = read(fd, tetrimino_str, (tetrimino_size + 1))))
 	{
-		if (validate_input(tetrimino_str, tetrimino_size) != 1)
+		if (validate_newlines(tetrimino_str, tetrimino_size) != 1)
 		{
 			tetrimino_count++;
 			// change this part, to make the tetriminos
@@ -90,9 +116,12 @@ t_list	*read_tetriminoes(int fd, char *tetrimino_str,
 }
 
 /*
-** The read tetriminoes function reads one tetrimino block at a time
+** Takes in a file, opens it, reads the file, gets the tetriminoes
+** and returns them in a linked list.
 */
-int	get_tetriminoes_from_file(char *filename)
+
+//note: change return to linked list
+t_list	*get_tetriminoes_from_file(char *filename)
 {
 	int		fd;
 	int		tetrimino_size = 20;
@@ -103,10 +132,12 @@ int	get_tetriminoes_from_file(char *filename)
 	{
 		fd = open(filename, O_RDONLY);
 		if (check_file_opened(fd) == 1)
-			return (1);
+			return (NULL);
+		// change call to read_tetriminoes to t_list =
 		read_tetriminoes(fd, tetrimino_str, tetrimino_size);
 		if (close_file(fd) == 1)
-			return(1);
+			return(NULL);
 	}
-	return (0);
+	// change to read_tetriminoes
+	return (NULL);
 }
