@@ -6,30 +6,25 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:47:02 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/02 18:02:26 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/04 08:57:58 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-int		is_invalid(int argc)
+void	print_usage_msg(char *prog_name)
 {
-	if (argc != 2)
-	{
-		ft_putstr("usage: fillit [input_file]\n");
-		return (1);
-	}
-	//else if add piece for if file is invalid or pieces are invalid
-	return (0);
+		ft_putstr_fd("usage: ", STDERR_FILENO);
+		ft_putstr_fd(prog_name, STDERR_FILENO);
+		ft_putstr_fd(" [input_file]\n", STDERR_FILENO);
 }
-
 
 int main(int argc, char **argv)
 {
-	if (is_invalid(argc))
+	if (argc != 2)
 	{
-		return(1);
+		print_usage_msg(argv[0]);
+		return (1);
 	}
-	printf("%s",argv[1]);
+	return (0);
 }
