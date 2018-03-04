@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "tetrimino.h"
 
 #test random
 	printf("RUNNING A RANDOM TEST...\n");
@@ -6,3 +7,9 @@
 
 	str++;
 	ck_assert_str_eq(str, "ELLO, WORLD!");
+
+#test check_tetrimno_struct
+	printf("CHECKING TETRIMNO STRUCT...\n");
+
+	t_tetri s_tetri;
+	t_list	*head;
