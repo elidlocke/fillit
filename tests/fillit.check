@@ -1,14 +1,25 @@
-#include "test.h"
+#include <ctype.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <time.h>
+#include <unistd.h>
+#include "libft.h"
+#include "points.h"
+#include "tetrimino.h"
 
 #test invalid_map
 	printf("CHECKING FOR INVALID MAP INPUT...\n");
 	
-	/*
 	struct stat st;
-	*/
 	int bytes_written;
 	FILE *fp;
-	char *invalidfiles[8] = {
+	char *str;
+	char *invalidfiles[] = {
 		"test_input/invalid_maps/5x5",
 		"test_input/invalid_maps/30tetriminoes",
 		"test_input/invalid_maps/nonewlineatend",
@@ -23,20 +34,38 @@
 	int i = 0;
 	while (invalidfiles[i])
 	{
-		get_tetriminoes_from_file(invalidfiles[i]);
+		//get_tetriminoes_from_file(invalidfiles[i]);
 		i++;
 	}
-
-	/*
 	stat("./tests/redir.txt", &st);
 	bytes_written = st.st_size;
-	ck_assert_int_eq(bytes_written, strlen(sentence));
+	//ck_assert_int_eq(bytes_written, strlen(sentence));
 	str = (char *)malloc(sizeof(char) * bytes_written + 1);
 	rewind(fp);
 	fscanf(fp, "%s", str);
-	ck_assert_str_eq(str, sentence);
+	//ck_assert_str_eq(str, sentence);
 	fclose(fp);
 	free(str);
 
 	remove("./tests/redir.txt");
-	*/
+
+#test	check_ft_str_replace
+	printf("CHECKING STR REPLACE...\n");
+
+	char str[] = "AAAxxx AAAxxx A ";
+
+	ft_str_replace(str, 'A', 'x');
+	ck_assert_str_eq(str, "xxxxxx xxxxxx x ");
+
+#test	check_create_point
+	printf("CHECKING CREATE POINT...\n");
+
+	t_point	*point;
+
+	point = create_point(0);
+	ck_assert_int_eq(0, point->x);
+	ck_assert_int_eq(0, point->y);
+	point->x = 10;
+	ck_assert_int_eq(10, point->x);
+	free_point(point);
+	ck_assert_ptr_eq(0, point);

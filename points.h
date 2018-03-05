@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tetrimino.h                                        :+:      :+:    :+:   */
+/*   points.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/04 10:29:46 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 10:26:35 by jpollore         ###   ########.fr       */
+/*   Created: 2018/03/05 10:25:07 by jpollore          #+#    #+#             */
+/*   Updated: 2018/03/05 10:27:14 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TETRIMINO_H
-#define TETRIMINO_H
-# define BLOCK '#'
-# define EMPTY '.'
-# define NEWLINE '\n'
+#ifndef POINTS_H
+#define POINTS_H
 # include <string.h>
 
-typedef struct	s_tetri
+typedef struct	s_point
 {
-	char		**shape;
-	t_point		*start;
-	int			width;
-	int			height;
-}				t_tetri;
-t_tetri			*create_tetrimno(const char *raw_shape, const char fill);
+	int 		x;
+	int			y;
+}				t_point;
+t_point			*create_point(int len);
+void			free_point(t_point *point);
+void			free_minmax_points(t_point **points, int n);
 #endif
