@@ -6,50 +6,144 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/04 11:48:44 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/04 18:09:08 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "tetrimino.h"
 
-static int	validate_tetrimino(const char *shape, int *max_wh)
+t_point		*create_point(int len)
 {
-	max_wh[0] = 0;
-	max_wh[1] = 0;
+	t_point *point;
+
+	if ((point = (t_point *)ft_memalloc(sizeof(*point))))
+	{
+		point->x = len % 5;
+		point->y = (len + 5 - 1) /	5;
+	}
+	return (point);
+}
+
+void		free_points(t_point **points, int blocks)
+{
+	int count;
+
+	if (!points || !blocks)
+		return ;
+	count = (blocks >= 1 && blocks <= 2) ? 1 : 2;
+	while (count--)
+		free(*points++);
+	*points = NULL;
+}
+
+static int	xy_to_len(int x, int y)
+{
+	return (x + (y - 1) * 5);
+}
+
+static int	validate_block(const char *shape, int len)
+{
+	int x;
+	int y;
+
+	x = len % 5;
+	y = (len + 5 - 1) / 5;
+	if ((y - 1) >= 0 && shape[xy_to_len(x, y - 1)] == BLOCK)
+		return (1);
+	if ((y + 1) < 4 && shape[xy_to_len(x, y + 1)] == BLOCK)
+		return (1);
+	if ((x - 1) >= 0 && shape[xy_to_len(x - 1, y)] == BLOCK)
+		return (1);
+	if ((x + 1) < 4 && shape[xy_to_len(x + 1, y)] == BLOCK)
+		return (1);
 	return (0);
 }
 
-t_tetri *create_tetrimno(const char *raw_shape, const char fill)
+static int	validate_tetrimino(const char *shape, t_points **points)
+{
+	size_t	len;
+	int		blocks;
+
+	len = 0;
+	blocks = 0;
+	while (shape[len])
+	{
+		if ((len + 1) % 5 == 0 && shape[len] != NEWLINE)
+			return (0);
+		else if (shape[len] == BLOCK)
+		{
+			if (blocks > 4 || !validate_block(shape, len))
+			{
+				free_points(points, blocks);
+				return (-1);
+			}
+			if (blocks == 0 || blocks == 2)
+				points[blocks == 0 ? 0 : 1] = create_point(len);
+			blocks++;
+		}
+		len++;
+	}
+	return (1);
+}
+
+static char	**create_tetrimno_shape(int height, int width)
+{
+	char	**shape;
+	int		row;
+
+	if ((shape = (char **)ft_memalloc(sizeof(*shape) * height + 1)))
+	{
+		row = 0;
+		while (row < height)
+		{
+			shape[row] = ft_strnew(width);
+			ft_memset(shape[row++], EMPTY, width - 1);
+		}
+	}
+	shape[row] = 0;
+	return (shape);
+}
+
+static void	fill_tetrimino(const char *raw_shape, const char fill, int width, int height, char **shape)
+{
+	t_point *start;
+	int	curr_y;
+	int len;
+
+	len = 0;
+	start = NULL;
+	curr_y = 0;
+	while (raw_shape[len])
+	{
+		if (raw_shape[len] == BLOCK && !start)
+			start = create_point(len);
+		if (raw_shape[len] == BLOCK)
+			/* TODO: COPY USING POSITIONS AWARE */
+			ft_memcpy(shape[curr_y++], raw_shape[len], width);
+		else if (raw_shape[len] == NEWLINE)
+		{
+			curr->x = 0;
+			curr->y++;
+		}
+		curr->x++;
+		len++;
+	}
+}
+
+t_tetri		*create_tetrimno(const char *raw_shape, const char fill)
 {
 	t_tetri *new;
-	char	*row[4];
-	size_t	tetri_width;
-	size_t	tetri_height;
-	int		*max_wh;
+	t_point **points;
 
-	if (!validate_tetrimino(raw_shape, max_wh))
+	if (!raw_shape || !validate_tetrimino(raw_shape, points))
 		return (NULL);
 	if ((new = (t_tetri *)ft_memalloc(sizeof(*new))))
 	{
-		tetri_width = 0;
-		tetri_height = 0;
-		while (*raw_shape)
-		{
-			if (*raw_shape != NEWLINE && *raw_shape == BLOCK)
-				tetri_width++;
-			else if (*raw_shape == NEWLINE)
-			{
-				row[tetri_height] = ft_strnew(tetri_width);
-				ft_memset(row[tetri_height], fill, tetri_width);
-				tetri_width = 0;
-				tetri_height++;
-			}
-			raw_shape++;
-		}
-		new->shape = row;
-		new->width = max_wh[0];
-		new->height = max_wh[1];
+		new->width = (points[1])->y - (points[0])->y;
+		new->height = (points[1])->x - (points[0])->x;
+		new->shape = create_tetrimno_shape(new->height, new->width);
+		fill_tetrimino(raw_shape, fill, new->shape);
 	}
 	return (new);
 }
