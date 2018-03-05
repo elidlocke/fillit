@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 10:27:36 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/05 12:29:47 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "points.h"
 #include "tetrimino.h"
 
-static int	xy_to_len(int x, int y)
+int	xy_to_len(int x, int y)
 {
 	return (x + (y - 1) * 5);
 }
 
-static int	validate_block(const char *shape, int len)
+int	validate_block(const char *shape, int len)
 {
 	int x;
 	int y;
@@ -37,7 +37,7 @@ static int	validate_block(const char *shape, int len)
 	return (0);
 }
 
-static int	validate_tetrimino(const char *shape, t_point **points)
+int	validate_tetrimino(const char *shape, t_point **points)
 {
 	size_t	len;
 	int		blocks;
@@ -52,10 +52,10 @@ static int	validate_tetrimino(const char *shape, t_point **points)
 		{
 			if (blocks > 4 || !validate_block(shape, len))
 			{
-				free_minmax_points(points, blocks);
+				free_minmax_points(&points);
 				return (-1);
 			}
-			if (blocks == 0 || blocks == 2)
+			if (blocks == 0 || blocks == 3)
 				points[blocks == 0 ? 0 : 1] = create_point(len);
 			blocks++;
 		}
@@ -64,7 +64,7 @@ static int	validate_tetrimino(const char *shape, t_point **points)
 	return (1);
 }
 
-static char	**create_tetrimno_shape(int height, int width)
+char	**create_tetrimno_shape(int height, int width)
 {
 	char	**shape;
 	int		row;
@@ -77,12 +77,12 @@ static char	**create_tetrimno_shape(int height, int width)
 			shape[row] = ft_strnew(width);
 			ft_memset(shape[row++], EMPTY, width - 1);
 		}
-		shape[row] = 0;
+		shape[row] = NULL;
 	}
 	return (shape);
 }
 
-static void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new)
+void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new)
 {
 	int	curr_y;
 	int curr_x;
@@ -103,7 +103,8 @@ t_tetri		*create_tetrimno(const char *raw_shape, const char fill)
 	t_tetri *new;
 	t_point **points;
 
-	points = NULL;
+	if ((points = (t_point **)ft_memalloc(sizeof(*points) * 2)))
+		return (NULL);
 	if (!raw_shape || !validate_tetrimino(raw_shape, points))
 		return (NULL);
 	if ((new = (t_tetri *)ft_memalloc(sizeof(*new))))
