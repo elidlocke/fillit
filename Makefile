@@ -6,7 +6,7 @@
 #    By: jpollore <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/04 08:52:07 by jpollore          #+#    #+#              #
-#    Updated: 2018/03/04 09:58:44 by jpollore         ###   ########.fr        #
+#    Updated: 2018/03/04 15:53:41 by enennige         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ TS_NAME = check.out
 TEST_HEADER = $$HOME/.brew/include/
 TEST_LIBRARY = $$HOME/.brew/lib/
 TEST = tests/
-CS = main.c
+CS = main.c readfile.c
 TS = fillit.check
 CFLAGS = -Wall -Wextra -Werror
 LIB_OPT = -L. -lft
