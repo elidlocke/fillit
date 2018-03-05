@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/04 14:14:53 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/04 18:09:46 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_file_opened(int fd)
 {
 	if (fd == -1)
 	{
-		ft_putstr("error\n");
+		ft_putstr("error: file not opened\n");
 		return (1);
 	}
 	return (0);
@@ -42,7 +42,7 @@ int	close_file(int fd)
 {
 	if (close(fd) == -1)
 	{
-		ft_putstr("error\n");
+		ft_putstr("error: file not closed\n");
 		return (1);
 	}
 	return (0);
@@ -60,13 +60,13 @@ int	validate_newlines(char *tetrimino_str, int tetrimino_size)
 	{
 		if (tetrimino_str[tetrimino_size - 1] != '\n')
 		{
-			ft_putstr("error\n");
+			ft_putstr("error: tetrimino is not 4x4\n");
 			return (1);
 		}
 	}
 	if (tetrimino_str[tetrimino_size] != '\n')
 	{
-		ft_putstr("error\n");
+		ft_putstr("error: no newline after tetrimino block\n");
 		return (1);
 	}
 	return (0);
@@ -74,8 +74,9 @@ int	validate_newlines(char *tetrimino_str, int tetrimino_size)
 
 int check_tetrimino_count(int count)
 {
-	if (count > 26 || count < 1)
+	if (count > 26 || count < 0)
 	{
+		ft_putstr("error: too many, or too few tetriminoes\n");
 		return (1);
 	}
 	return (0);
@@ -96,16 +97,17 @@ t_list	*read_tetriminoes(int fd, char *tetrimino_str,
 	tetrimino_count = 0;	
 	while ((ret = read(fd, tetrimino_str, (tetrimino_size + 1))))
 	{
-		if (validate_newlines(tetrimino_str, tetrimino_size) != 1)
+		if (validate_newlines(tetrimino_str, tetrimino_size) == 1)
 		{
-			tetrimino_count++;
-			// change this part, to make the tetriminos
-			ft_putstr("\n**NEXT**\n");
-			ft_putstr(tetrimino_str);
-			// end change to make linked list
-			free(tetrimino_str);
-			tetrimino_str = ft_strnew(tetrimino_size + 1);
+			return (NULL);
 		}
+		tetrimino_count++;
+		// change this part, to make the tetriminos
+		ft_putstr("\n**NEXT**\n");
+		ft_putstr(tetrimino_str);
+		// end change to make linked list
+		free(tetrimino_str);
+		tetrimino_str = ft_strnew(tetrimino_size + 1);
 		if (check_tetrimino_count(tetrimino_count) == 1)
 		{
 			return (NULL);
@@ -138,6 +140,6 @@ t_list	*get_tetriminoes_from_file(char *filename)
 		if (close_file(fd) == 1)
 			return(NULL);
 	}
-	// change to read_tetriminoes
+	// change to return tetriminoes
 	return (NULL);
 }

@@ -1,8 +1,42 @@
-#include <stdio.h>
+#include "test.h"
 
-#test random
-	printf("RUNNING A RANDOM TEST...\n");
-	char *str = "HELLO, WORLD!";
+#test invalid_map
+	printf("CHECKING FOR INVALID MAP INPUT...\n");
+	
+	/*
+	struct stat st;
+	*/
+	int bytes_written;
+	FILE *fp;
+	char *invalidfiles[8] = {
+		"test_input/invalid_maps/5x5",
+		"test_input/invalid_maps/30tetriminoes",
+		"test_input/invalid_maps/nonewlineatend",
+		"test_input/invalid_maps/nopermissions",
+		"test_input/invalid_maps/startswithnewline",
+		"test_input/invalid_maps/stucktogether",
+		"test_input/invalid_maps/toomanynewlines",
+		NULL};
 
-	str++;
-	ck_assert_str_eq(str, "ELLO, WORLD!");
+	bytes_written = 0;
+	fp = freopen("./tests/redir.txt", "w+", stdout);
+	int i = 0;
+	while (invalidfiles[i])
+	{
+		get_tetriminoes_from_file(invalidfiles[i]);
+		i++;
+	}
+
+	/*
+	stat("./tests/redir.txt", &st);
+	bytes_written = st.st_size;
+	ck_assert_int_eq(bytes_written, strlen(sentence));
+	str = (char *)malloc(sizeof(char) * bytes_written + 1);
+	rewind(fp);
+	fscanf(fp, "%s", str);
+	ck_assert_str_eq(str, sentence);
+	fclose(fp);
+	free(str);
+
+	remove("./tests/redir.txt");
+	*/
