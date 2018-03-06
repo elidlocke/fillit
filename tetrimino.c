@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 17:17:44 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/05 17:37:55 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "points.h"
 #include "tetrimino.h"
 
-int	xy_to_len(int x, int y)
+int		xy_to_len(int x, int y)
 {
 	return (x + y * 5);
 }
 
-int	validate_block(const char *shape, int len)
+int		validate_block(const char *shape, int len)
 {
 	int x;
 	int y;
@@ -39,7 +39,7 @@ int	validate_block(const char *shape, int len)
 	return (0);
 }
 
-int	validate_tetrimino(const char *shape, t_point ***points)
+int		validate_tetrimino(const char *shape, t_point ***points)
 {
 	size_t	len;
 	int		blocks;
@@ -105,7 +105,7 @@ void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new)
 	}
 }
 
-void	free_tetrimno(t_tetri **tetri)
+void	free_tetrimino(t_tetri **tetri)
 {
 	int height;
 
@@ -123,7 +123,7 @@ void	free_tetrimno(t_tetri **tetri)
 	*tetri = NULL;
 }
 
-t_tetri		*create_tetrimino(const char *raw_shape, const char fill)
+t_tetri	*create_tetrimino(const char *raw_shape, const char fill)
 {
 	t_tetri *tetri;
 	t_point **points;
