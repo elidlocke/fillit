@@ -286,15 +286,41 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 #test check_create_tetrimino
 	printf("CHECKING CREATE TETRIMINO...\n");
 
+	//char *g_rshape_v2 = ".##.\n..##\n....\n....\n";
+
 	t_tetri *new;
 
 	new = create_tetrimino(g_rshape_v3, 'A');
-	if (new)
-		print_tetrimno(new);
-	//ck_assert_int_eq(0, new->start->x);
-	//ck_assert_int_eq(0, new->start->y);
-	//ck_assert_str_eq(new->shape[0], "AA");
-	//ck_assert_str_eq(new->shape[1], "AA");
-	//ck_assert_ptr_eq(new->shape[2], 0);
-	//free_tetrimno(&new);
-	//ck_assert_ptr_eq(new, 0);
+	ck_assert_int_eq(2, new->width);
+	ck_assert_int_eq(2, new->height);
+	ck_assert_int_eq(0, new->start->x);
+	ck_assert_int_eq(0, new->start->y);
+	ck_assert_str_eq(new->shape[0], "AA");
+	ck_assert_str_eq(new->shape[1], "AA");
+	ck_assert_ptr_eq(new->shape[2], 0);
+	free_tetrimno(&new);
+	ck_assert_ptr_eq(new, 0);
+
+	new = create_tetrimino(g_rshape_v1, 'B');
+	ck_assert_int_eq(1, new->width);
+	ck_assert_int_eq(4, new->height);
+	ck_assert_int_eq(1, new->start->x);
+	ck_assert_int_eq(0, new->start->y);
+	ck_assert_str_eq(new->shape[0], "B");
+	ck_assert_str_eq(new->shape[1], "B");
+	ck_assert_str_eq(new->shape[2], "B");
+	ck_assert_str_eq(new->shape[3], "B");
+	ck_assert_ptr_eq(new->shape[4], 0);
+	free_tetrimno(&new);
+	ck_assert_ptr_eq(new, 0);
+
+	new = create_tetrimino(g_rshape_v2, 'C');
+	ck_assert_int_eq(3, new->width);
+	ck_assert_int_eq(2, new->height);
+	ck_assert_int_eq(1, new->start->x);
+	ck_assert_int_eq(0, new->start->y);
+	ck_assert_str_eq(new->shape[0], "CC.");
+	ck_assert_str_eq(new->shape[1], ".CC");
+	ck_assert_ptr_eq(new->shape[2], 0);
+	free_tetrimno(&new);
+	ck_assert_ptr_eq(new, 0);

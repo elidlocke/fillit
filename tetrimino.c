@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 17:00:39 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/05 17:17:44 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,21 +125,21 @@ void	free_tetrimno(t_tetri **tetri)
 
 t_tetri		*create_tetrimino(const char *raw_shape, const char fill)
 {
-	t_tetri *new;
+	t_tetri *tetri;
 	t_point **points;
 
-	if (!raw_shape || (points = (t_point **)ft_memalloc(sizeof(*points) * 2)))
+	if (!raw_shape || !(points = (t_point **)ft_memalloc(sizeof(*points) * 2)))
 		return (NULL);
 	if (!validate_tetrimino(raw_shape, &points))
 		return (NULL);
-	if ((new = (t_tetri *)ft_memalloc(sizeof(*new))))
+	if ((tetri = (t_tetri *)ft_memalloc(sizeof(*tetri))))
 	{
-		new->width = (points[1])->y - (points[0])->y;
-		new->height = (points[1])->x - (points[0])->x;
-		new->start = points[0];
-		if (!(new->shape = create_tetrimno_shape(new->height, new->width)))
+		tetri->height = ((points[1])->y - (points[0])->y) + 1;
+		tetri->width = ((points[1])->x - (points[0])->x) + 1;
+		tetri->start = points[0];
+		if (!(tetri->shape = create_tetrimno_shape(tetri->height, tetri->width)))
 			return (NULL);
-		fill_tetrimino(raw_shape, fill, new);
+		fill_tetrimino(raw_shape, fill, tetri);
 	}
-	return (new);
+	return (tetri);
 }
