@@ -18,7 +18,10 @@ void	print_tetrimno(t_tetri *tetri)
 
 	y = 0;
 	while (y < tetri->height)
+	{
 		ft_putstr(tetri->shape[y++]);
+		ft_putchar('\n');
+	}
 }
 
 char *g_rshape_v1 = ".#..\n.#..\n.#..\n.#..\n";
@@ -26,6 +29,8 @@ char *g_rshape_i1 = ".#..\n.#..\n.#..\n...#\n";
 
 char *g_rshape_v2 = ".##.\n..##\n....\n....\n";
 char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
+
+char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 
 #test invalid_map
 	printf("CHECKING FOR INVALID MAP INPUT...\n");
@@ -76,6 +81,13 @@ char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
 	ck_assert_int_eq(10, point->x);
 	free_point(&point);
 	ck_assert_ptr_eq(0, point);
+
+	point = create_point(6);
+	ck_assert_int_eq(1, point->x);
+	ck_assert_int_eq(1, point->y);
+	free_point(&point);
+	ck_assert_ptr_eq(0, point);
+
 	point = create_point(1);
 	ck_assert_int_eq(g_rshape_v1[1], g_rshape_v1[xy_to_len(point->x, point->y)]);
 	free_point(&point);
@@ -143,10 +155,12 @@ char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
 	//char *g_rshape_v2 = ".##.\n..##\n....\n....\n";
 	//char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
 	
+	//char *g_rshape_v3 = "##..\n##..\n....\n....\n";
+
 	t_point **points;
 
 	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
-	ck_assert_int_eq(1, validate_tetrimino(g_rshape_v1, points));
+	ck_assert_int_eq(1, validate_tetrimino(g_rshape_v1, &points));
 	ck_assert_int_eq(1, xy_to_len(points[0]->x, points[0]->y));
 	ck_assert_int_eq(16, xy_to_len(points[1]->x, points[1]->y));
 	ck_assert_int_eq(1, points[0]->x);
@@ -154,10 +168,112 @@ char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
 	ck_assert_int_eq(1, points[1]->x);
 	ck_assert_int_eq(4, points[1]->y);
 	free_minmax_points(&points);
+	ck_assert_ptr_eq(0, points);
 
 	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
-	ck_assert_int_eq(-1, validate_tetrimino(g_rshape_i1, points));
-	ck_assert_ptr_eq(points, 0);
+	ck_assert_int_eq(1, validate_tetrimino(g_rshape_v2, &points));
+	ck_assert_int_eq(1, xy_to_len(points[0]->x, points[0]->y));
+	ck_assert_int_eq(8, xy_to_len(points[1]->x, points[1]->y));
+	ck_assert_int_eq(1, points[0]->x);
+	ck_assert_int_eq(1, points[0]->y);
+	ck_assert_int_eq(3, points[1]->x);
+	ck_assert_int_eq(2, points[1]->y);
+	free_minmax_points(&points);
+	ck_assert_ptr_eq(0, points);
+
 	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
-	ck_assert_int_eq(-1, validate_tetrimino(g_rshape_i2, points));
+	ck_assert_int_eq(1, validate_tetrimino(g_rshape_v3, &points));
+	ck_assert_int_eq(0, points[0]->x);
+	ck_assert_int_eq(1, points[0]->y);
+	ck_assert_int_eq(0, points[1]->x);
+	ck_assert_int_eq(2, points[1]->y);
+	ck_assert_int_eq(1, xy_to_len(points[0]->x, points[0]->y));
+	ck_assert_int_eq(7, xy_to_len(points[1]->x, points[1]->y));
+	free_minmax_points(&points);
+	ck_assert_ptr_eq(0, points);
+
+	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
+	ck_assert_int_eq(-1, validate_tetrimino(g_rshape_i1, &points));
 	ck_assert_ptr_eq(points, 0);
+
+	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
+	ck_assert_int_eq(-1, validate_tetrimino(g_rshape_i2, &points));
+	ck_assert_ptr_eq(0, points);
+
+#test check_create_tetrimno_shape
+	printf("CHECKING CREATE TETRIMNO SHAPE...\n");
+
+	int row;
+	char *empty_2_2[] = {"..", ".."};
+	char *empty_4_1[] = {".", ".", ".", "."};
+	char **res;
+	
+	row = 0;
+	res = create_tetrimno_shape(2, 2);
+	ck_assert_str_eq(empty_2_2[0], res[0]);
+	ck_assert_str_eq(empty_2_2[1], res[1]);
+	ck_assert_int_eq(2, strlen(res[0]));
+	ck_assert_int_eq(2, strlen(res[1]));
+	ck_assert_ptr_eq(res[2], NULL);
+
+	row = 0;
+	res = create_tetrimno_shape(4, 1);
+	ck_assert_str_eq(empty_4_1[0], res[0]);
+	ck_assert_str_eq(empty_4_1[1], res[1]);
+	ck_assert_str_eq(empty_4_1[2], res[2]);
+	ck_assert_str_eq(empty_4_1[3], res[3]);
+	ck_assert_int_eq(1, strlen(res[0]));
+	ck_assert_int_eq(1, strlen(res[1]));
+	ck_assert_int_eq(1, strlen(res[2]));
+	ck_assert_int_eq(1, strlen(res[3]));
+	ck_assert_ptr_eq(res[4], NULL);
+
+#test check_fill_tetrimno
+	printf("CHECKING FILL TETRIMNO...\n");
+
+	t_point *point;
+	t_tetri *new;
+
+	point = create_point(0);
+	new = (t_tetri *)ft_memalloc(sizeof(*new));
+	new->width = 2;
+	new->height = 2;
+	new->start = point;
+	new->shape = create_tetrimno_shape(new->width, new->height);
+	fill_tetrimino(g_rshape_v3, 'A', new);
+	ck_assert_str_eq(new->shape[0], "AA");
+	ck_assert_str_eq(new->shape[1], "AA");
+	ck_assert_ptr_eq(new->shape[2], 0);
+	free_tetrimno(&new);
+	ck_assert_ptr_eq(new, 0);
+
+	point = create_point(1);
+	new = (t_tetri *)ft_memalloc(sizeof(*new));
+	new->width = 1;
+	new->height = 4;
+	new->start = point;
+	new->shape = create_tetrimno_shape(new->height, new->width);
+	fill_tetrimino(g_rshape_v1, 'A', new);
+	ck_assert_str_eq(new->shape[0], "A");
+	ck_assert_str_eq(new->shape[1], "A");
+	ck_assert_str_eq(new->shape[2], "A");
+	ck_assert_str_eq(new->shape[3], "A");
+	ck_assert_ptr_eq(new->shape[4], 0);
+	free_tetrimno(&new);
+	ck_assert_ptr_eq(new, 0);
+
+#test check_create_tetrimino
+	printf("CHECKING CREATE TETRIMINO...\n");
+
+	t_tetri *new;
+
+	new = create_tetrimino(g_rshape_v3, 'A');
+	if (new)
+		print_tetrimno(new);
+	//ck_assert_int_eq(0, new->start->x);
+	//ck_assert_int_eq(0, new->start->y);
+	//ck_assert_str_eq(new->shape[0], "AA");
+	//ck_assert_str_eq(new->shape[1], "AA");
+	//ck_assert_ptr_eq(new->shape[2], 0);
+	//free_tetrimno(&new);
+	//ck_assert_ptr_eq(new, 0);

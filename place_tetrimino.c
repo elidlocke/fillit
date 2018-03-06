@@ -6,11 +6,14 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/05 15:41:12 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/05 16:02:29 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "points.h"
+#include "tetrimino.h"
+#include "square.h"
 
 /*
 ** The function check_tetrimino_max() checks if a tetrimino's size will

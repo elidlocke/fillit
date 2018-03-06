@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:36:41 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/05 15:41:10 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/05 16:00:57 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 ** width and height equal to size. Each character in the array of strings is
 ** then initialized to '.'
 */
+#include "libft.h"
+#include "square.h"
 
 char	**make_str_square(size_t size)
 {

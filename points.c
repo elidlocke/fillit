@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 10:24:32 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 11:56:11 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/05 15:59:39 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ t_point		*create_point(int len)
 	if ((point = (t_point *)ft_memalloc(sizeof(*point))))
 	{
 		point->x = len % 5;
-		point->y = (len + 5 - 1) /	5;
+		if (((len + 5 - 1) / 5) > 0)
+			point->y = ((len + 5 - 1) / 5) - 1;
+		else
+			point->y = 0;
 	}
 	return (point);
 }
