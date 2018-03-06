@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:29:46 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 17:39:26 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 14:11:18 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define EMPTY '.'
 # define NEWLINE '\n'
 # include <string.h>
+# include "points.h"
 
 typedef struct	s_tetri
 {

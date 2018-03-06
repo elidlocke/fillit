@@ -11,6 +11,7 @@
 #include "libft.h"
 #include "square.h"
 #include "points.h"
+#include "read.h"
 #include "tetrimino.h"
 
 void	print_tetrimno(t_tetri *tetri)
@@ -23,6 +24,11 @@ void	print_tetrimno(t_tetri *tetri)
 		ft_putstr(tetri->shape[y++]);
 		ft_putchar('\n');
 	}
+}
+
+void	print_tetri_lst(t_list *node)
+{
+	print_tetrimno((t_tetri *)node->content);	
 }
 
 char *g_rshape_v1 = ".#..\n.#..\n.#..\n.#..\n";
@@ -402,23 +408,31 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 #test check_print_str_square
     printf("CHECKING PRINT STR SQUARE...\n");
 	
-	struct stat st;
-	int bytes_written;
 	FILE *fp;
 	char *str;
 	t_square *new = make_square_struct(3);
 	char **square_str = new->str_array;
-	char *output = "...\n...\n...\n";
 
-	bytes_written = 0;
 	fp = freopen("./tests/redir.txt", "w+", stdout);
 	print_str_square(square_str);
-	stat("./tests/redir/txt", &st);
-	bytes_written = st.st_size;
-	printf("bytes: |%d|\n", bytes_written);
-	str = (char *)malloc(sizeof(char) * bytes_written + 1);
 	rewind(fp);
-	fscanf(fp, "%s", str);
-	ck_assert_str_eq(str,output);
+	str = (char *)malloc(sizeof(char) * 5);
+	for (int i = 0; i < 3; i++)
+	{
+		fscanf(fp, "%s", str);
+		ck_assert_str_eq(str, "...");
+		bzero(str, 5);
+	}
 	fclose(fp);
 	free(str);
+
+	remove("./tests/redir.txt");
+
+#test check_get_tetri_from_file
+	printf("CHECKING GET TETRIS FROM FILE...\n");
+
+	t_list *tetri_lst;
+	
+	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
+	print_tetrimno((t_tetri *)tetri_lst->content);
+	//ft_lstiter(tetri_lst, &print_tetri_lst);
