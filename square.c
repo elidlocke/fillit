@@ -6,19 +6,20 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:36:41 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/05 16:00:57 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/05 17:37:35 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** The function make_str_square() makes a square array of strings, with a
-** width and height equal to size. Each character in the array of strings is
-** then initialized to '.'
-*/
 #include "libft.h"
 #include "square.h"
 
-char	**make_str_square(size_t size)
+/*
+** The function make_square_str() makes a square array of strings, with a
+** width and height equal to size. Each character in the array of strings is
+** then initialized to '.'
+*/
+
+char	**make_square_str(size_t size)
 {
 	char	**square;
 	size_t	i;
@@ -35,6 +36,21 @@ char	**make_str_square(size_t size)
 		ft_memset(square[i], '.', size);
 		i++;
 	}
+	return (square);
+}
+
+/*
+** The function make_square_struct() makes a structure for a square to be filled,
+** which contains the size of the square and a string array filled with '.'
+*/
+t_square	*make_square_struct(size_t size)
+{
+	t_square *square;
+	
+	square = (t_square *)ft_memalloc(sizeof(*square));
+	square->str_array = make_square_str(size);
+	square->size = size;
+	
 	return (square);
 }
 

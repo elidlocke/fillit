@@ -9,6 +9,7 @@
 #include <time.h>
 #include <unistd.h>
 #include "libft.h"
+#include "square.h"
 #include "points.h"
 #include "tetrimino.h"
 
@@ -324,3 +325,27 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 	ck_assert_ptr_eq(new->shape[2], 0);
 	free_tetrimno(&new);
 	ck_assert_ptr_eq(new, 0);
+
+#test check_make_square
+    printf("CHECKING MAKE SQUARE STR...\n");
+
+    char **square_10x10 = make_square_str(10);
+    char answer[11][11] = { "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            {0} };
+
+    int i = 0;
+    while (i < 10)
+    {
+        ck_assert_str_eq(square_10x10[i], answer[i]);
+        i++;
+    }
+    ck_assert_ptr_eq(square_10x10[i], NULL);
