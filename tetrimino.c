@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 15:32:27 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/05 17:00:39 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	xy_to_len(int x, int y)
 {
-	return (x + (y - 1) * 5);
+	return (x + y * 5);
 }
 
 int	validate_block(const char *shape, int len)
@@ -25,7 +25,9 @@ int	validate_block(const char *shape, int len)
 	int y;
 
 	x = len % 5;
-	y = (len + 5 - 1) / 5;
+	y = ((len + 5) / 5);
+	if (y > 0)
+		y -= 1;
 	if ((y - 1) >= 0 && shape[xy_to_len(x, y - 1)] == BLOCK)
 		return (1);
 	if ((y + 1) < 4 && shape[xy_to_len(x, y + 1)] == BLOCK)
