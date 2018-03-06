@@ -266,7 +266,7 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 	ck_assert_str_eq(new->shape[0], "AA");
 	ck_assert_str_eq(new->shape[1], "AA");
 	ck_assert_ptr_eq(new->shape[2], 0);
-	free_tetrimno(&new);
+	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
 
 	point = create_point(1);
@@ -281,7 +281,7 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 	ck_assert_str_eq(new->shape[2], "A");
 	ck_assert_str_eq(new->shape[3], "A");
 	ck_assert_ptr_eq(new->shape[4], 0);
-	free_tetrimno(&new);
+	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
 
 #test check_create_tetrimino
@@ -299,7 +299,7 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 	ck_assert_str_eq(new->shape[0], "AA");
 	ck_assert_str_eq(new->shape[1], "AA");
 	ck_assert_ptr_eq(new->shape[2], 0);
-	free_tetrimno(&new);
+	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
 
 	new = create_tetrimino(g_rshape_v1, 'B');
@@ -312,7 +312,7 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 	ck_assert_str_eq(new->shape[2], "B");
 	ck_assert_str_eq(new->shape[3], "B");
 	ck_assert_ptr_eq(new->shape[4], 0);
-	free_tetrimno(&new);
+	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
 
 	new = create_tetrimino(g_rshape_v2, 'C');
@@ -323,7 +323,7 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 	ck_assert_str_eq(new->shape[0], "CC.");
 	ck_assert_str_eq(new->shape[1], ".CC");
 	ck_assert_ptr_eq(new->shape[2], 0);
-	free_tetrimno(&new);
+	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
 
 #test check_make_square
@@ -349,3 +349,76 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
         i++;
     }
     ck_assert_ptr_eq(square_10x10[i], NULL);
+
+#test check_make_square_struct
+    printf("CHECKING MAKE SQUARE STRUCT...\n");
+
+	t_square *new = make_square_struct(10);
+    char answer[11][11] = { "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            "..........",
+                            {0} };
+
+    int i = 0;
+    while (i < 10)
+    {
+        ck_assert_str_eq((new->str_array)[i], answer[i]);
+        i++;
+    }
+    ck_assert_ptr_eq((new->str_array)[i], NULL);
+	ck_assert_int_eq((int)(new->size),10);
+
+#test check_putstr
+	printf("CHECKING PUTSTR...\n");
+
+	struct stat st;
+	int bytes_written;
+	FILE *fp;
+	char *str;
+	const char *sentence = "ThisIsASentence.";
+
+	bytes_written = 0;
+	fp = freopen("./tests/redir.txt", "w+", stdout);
+	ft_putstr(sentence);
+	stat("./tests/redir.txt", &st);
+	bytes_written = st.st_size;
+	ck_assert_int_eq(bytes_written, strlen(sentence));
+	str = (char *)malloc(sizeof(char) * bytes_written + 1);
+	rewind(fp);
+	fscanf(fp, "%s", str);
+	ck_assert_str_eq(str, sentence);
+	fclose(fp);
+	free(str);
+
+	remove("./tests/redir.txt");
+
+#test check_print_str_square
+    printf("CHECKING PRINT STR SQUARE...\n");
+	
+	struct stat st;
+	int bytes_written;
+	FILE *fp;
+	char *str;
+	t_square *new = make_square_struct(3);
+	char **square_str = new->str_array;
+	char *output = "...\n...\n...\n";
+
+	bytes_written = 0;
+	fp = freopen("./tests/redir.txt", "w+", stdout);
+	print_str_square(square_str);
+	stat("./tests/redir/txt", &st);
+	bytes_written = st.st_size;
+	printf("bytes: |%d|\n", bytes_written);
+	str = (char *)malloc(sizeof(char) * bytes_written + 1);
+	rewind(fp);
+	fscanf(fp, "%s", str);
+	ck_assert_str_eq(str,output);
+	fclose(fp);
+	free(str);
