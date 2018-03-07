@@ -425,10 +425,10 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
     }
     ck_assert_ptr_eq(square_10x10[i], NULL);
 
-#test check_make_square_struct
+#test check_create_square
     printf("CHECKING MAKE SQUARE STRUCT...\n");
 
-	t_square *new = make_square_struct(10);
+	t_square *new = create_square(10);
     char answer[11][11] = { "..........",
                             "..........",
                             "..........",
@@ -444,43 +444,19 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
     int i = 0;
     while (i < 10)
     {
-        ck_assert_str_eq((new->str_array)[i], answer[i]);
+        ck_assert_str_eq((new->rows)[i], answer[i]);
         i++;
     }
-    ck_assert_ptr_eq((new->str_array)[i], NULL);
+    ck_assert_ptr_eq(new->rows[i], NULL);
 	ck_assert_int_eq((int)(new->size),10);
-
-#test check_putstr
-	printf("CHECKING PUTSTR...\n");
-
-	struct stat st;
-	int bytes_written;
-	FILE *fp;
-	char *str;
-	const char *sentence = "ThisIsASentence.";
-
-	bytes_written = 0;
-	fp = freopen("./tests/redir.txt", "w+", stdout);
-	ft_putstr(sentence);
-	stat("./tests/redir.txt", &st);
-	bytes_written = st.st_size;
-	ck_assert_int_eq(bytes_written, strlen(sentence));
-	str = (char *)malloc(sizeof(char) * bytes_written + 1);
-	rewind(fp);
-	fscanf(fp, "%s", str);
-	ck_assert_str_eq(str, sentence);
-	fclose(fp);
-	free(str);
-
-	remove("./tests/redir.txt");
 
 #test check_print_str_square
     printf("CHECKING PRINT STR SQUARE...\n");
 
 	FILE *fp;
 	char *str;
-	t_square *new = make_square_struct(3);
-	char **square_str = new->str_array;
+	t_square *new = create_square(3);
+	char **square_str = new->rows;
 
 	fp = freopen("./tests/redir.txt", "w+", stdout);
 	print_str_square(square_str);
@@ -496,6 +472,19 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	free(str);
 
 	remove("./tests/redir.txt");
+
+#test check_free_square
+	printf("CHECKING FREE SQUARE..\n");
+
+	t_square *square;
+
+	square = create_square(10);
+	ck_assert_int_eq(10, square->size);
+	free_square(&square);
+	//for (int i = 0; i < 9; i++)
+	//	ck_assert_ptr_eq(0, square->rows[i]);
+	//ck_assert_ptr_eq(0, square->rows);
+	ck_assert_ptr_eq(0, square);
 
 #test check_lstnew_tetri
 	printf("CHECKING LSTNEW TETRI...\n");
@@ -559,6 +548,6 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 
 	point = create_point(6);
 	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
-	square = make_square_struct(10);
-	print_str_square(place_a_tetrimino((t_tetri *)tetri_lst->content,
-					square, point));
+	square = create_square(10);
+	//print_str_square(place_a_tetrimino((t_tetri *)tetri_lst->content,
+	//				square, point));

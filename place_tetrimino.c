@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 16:43:08 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 21:35:53 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 int		check_tetrimino_max(t_tetri *tetrimino, t_square *square,
 							t_point *point)
 {
-	if ((point->y + tetrimino->height < square->size) &&
-		(point->x + tetrimino->width < square->size))
+	if ((point->y + tetrimino->height < (int)square->size) &&
+		(point->x + tetrimino->width < (int)square->size))
 		return (1);
 	return (0);
 }
@@ -46,7 +46,7 @@ int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 
 	y = 0;
 	tetri_shape = tetrimino->shape;
-	str_square = square->str_array;
+	str_square = square->rows;
 	if (check_tetrimino_max(tetrimino, square, point) != 1)
 		return (0);
 	while (tetri_shape[y] != NULL)
@@ -84,7 +84,7 @@ char	**place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 	if (check_tetrimino_fits(tetrimino, square, point) == 1)
 	{
 		tetri_shape = tetrimino->shape;
-		str_square = square->str_array;
+		str_square = square->rows;
 		while (tetri_shape[y] != NULL)
 		{
 			x = 0;
@@ -115,7 +115,7 @@ char	**remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
 
 	y = 0;
 	tetri_shape = tetrimino->shape;
-	str_square = square->str_array;
+	str_square = square->rows;
 	while ((tetrimino->shape)[y] != NULL)
 	{
 		x = 0;

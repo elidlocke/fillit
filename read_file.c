@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 15:51:56 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 21:15:56 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ t_list		*read_tetriminoes(int fd)
 */
 
 //note: change return to linked list
-t_list		*get_tetriminoes_from_file(char *filename)
+t_list		*get_tetriminoes_from_file(const char *filename)
 {
 	int		fd;
 	t_list	*tetri_lst;

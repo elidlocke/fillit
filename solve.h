@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read.h                                             :+:      :+:    :+:   */
+/*   solve.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/06 13:24:35 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/06 21:16:09 by jpollore         ###   ########.fr       */
+/*   Created: 2018/03/06 21:07:38 by jpollore          #+#    #+#             */
+/*   Updated: 2018/03/06 21:08:45 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READ_H
-#define READ_H
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# define TETRI_SIZE 20
+#ifndef SOLVE_H
+#define SOLVE_H
+# include "read.h"
 
-t_list		*get_tetriminoes_from_file(const char *filename);
+void	print_usage_msg(const char *prog_name);
+int		solve(const char *filename);
 #endif

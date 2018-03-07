@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:36:41 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/05 17:37:35 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/06 21:48:45 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,56 @@ char	**make_square_str(size_t size)
 	char	**square;
 	size_t	i;
 
-	square = (char **)ft_memalloc((sizeof(*square) * (size + 1)));
-	if (!square)
-		return (NULL);
-	i = 0;
-	while (i < size)
+	if ((square = (char **)ft_memalloc((sizeof(*square) * (size + 1)))))
 	{
-		square[i] = ft_strnew(size);
-		if (!(square[i]))
-			return (NULL);
-		ft_memset(square[i], '.', size);
-		i++;
+		i = 0;
+		while (i < size)
+		{
+			if (!(square[i] = ft_strnew(size)))
+			{
+				while (--i)
+					ft_strdel(&square[i]);
+				free(square);
+				return (NULL);
+			}
+			ft_memset(square[i++], '.', size);
+		}
 	}
 	return (square);
+}
+
+void	free_square(t_square **square)
+{
+	size_t row;
+
+	if (!square)
+		return ;
+	row = 0;
+	while (row < (*square)->size)
+		ft_strdel(&((*square)->rows[row++]));
+	free((*square)->rows);
+	(*square)->rows = NULL;
+	free(*square);
+	*square = NULL;
 }
 
 /*
 ** The function make_square_struct() makes a structure for a square to be filled,
 ** which contains the size of the square and a string array filled with '.'
 */
-t_square	*make_square_struct(size_t size)
+t_square	*create_square(size_t size)
 {
 	t_square *square;
-	
-	square = (t_square *)ft_memalloc(sizeof(*square));
-	square->str_array = make_square_str(size);
-	square->size = size;
-	
+
+	if ((square = (t_square *)ft_memalloc(sizeof(*square))))
+	{
+		if (!(square->rows = make_square_str(size)))
+		{
+			free(square);
+			return (NULL);
+		}
+		square->size = size;
+	}
 	return (square);
 }
 
