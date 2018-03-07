@@ -42,6 +42,7 @@ char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 char *g_rshape_v4 = "...#\n...#\n...#\n...#\n";
 char *g_rshape_v5 = "....\n....\n....\n####\n";
 char *g_rshape_v6 = "....\n..##\n.##.\n....\n";
+char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 
 #test invalid_map
 	printf("CHECKING FOR INVALID MAP INPUT...\n");
@@ -388,6 +389,18 @@ char *g_rshape_v6 = "....\n..##\n.##.\n....\n";
 	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
 
+	new = create_tetrimino(g_rshape_v7, 'G');
+	ck_assert_int_eq(3, new->height);
+	ck_assert_int_eq(2, new->width);
+	ck_assert_int_eq(0, new->start->x);
+	ck_assert_int_eq(0, new->start->y);
+	ck_assert_str_eq(new->shape[0], "G.");
+	ck_assert_str_eq(new->shape[1], "GG");
+	ck_assert_str_eq(new->shape[2], "G.");
+	ck_assert_ptr_eq(new->shape[3], 0);
+	free_tetrimino(&new);
+	ck_assert_ptr_eq(new, 0);
+
 #test check_make_square
     printf("CHECKING MAKE SQUARE STR...\n");
 
@@ -532,6 +545,7 @@ char *g_rshape_v6 = "....\n..##\n.##.\n....\n";
 
 	t_list *tetri_lst;
 
-	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
+	//tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
+	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/allshapes");
 	//print_tetrimno((t_tetri *)tetri_lst->content);
 	ft_lstiter(tetri_lst, &print_tetri_lst);
