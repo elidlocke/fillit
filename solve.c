@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 18:40:38 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/06 22:04:47 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 10:08:11 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "square.h"
 #include "tetrimino.h"
 
-t_point	*get_start_point(char **square)
+int	get_next_point(t_point point, char **square)
 {
 }
 
