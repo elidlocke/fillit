@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/05 17:37:55 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 15:45:12 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new)
 	int curr_x;
 
 	curr_y = 0;
-	curr_x = new->start->x;
+	curr_x = xy_to_len(new->start->x, new->start->y);
 	while (curr_y < new->height)
 	{
 		ft_memcpy(new->shape[curr_y], &raw_shape[curr_x], new->width);

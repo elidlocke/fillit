@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 14:22:49 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 15:51:56 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void		lstdel_tetri(void *content, size_t content_size)
 
 t_list		*read_tetriminoes(int fd)
 {
-	int		ret;
 	int		tetrimino_count;
 	char	*tetrimino_str;
 	t_list	*tail;
@@ -120,12 +119,13 @@ t_list		*read_tetriminoes(int fd)
 
 	tetrimino_str = ft_strnew(TETRI_SIZE + 1);
 	tetrimino_count = 0;
-	while ((ret = read(fd, tetrimino_str, (TETRI_SIZE + 1))))
+	while (read(fd, tetrimino_str, (TETRI_SIZE + 1)))
 	{
 		if (validate_newlines(tetrimino_str) == -1 ||
-			check_tetrimino_count(++tetrimino_count) == -1)
+			check_tetrimino_count(tetrimino_count + 1) == -1)
 			return (NULL);
-		if (!tetrimino_count && (tail->next = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
+		tetrimino_str[TETRI_SIZE] = '\0';
+		if (tetrimino_count && (tail->next = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
 			tail = tail->next;
 		else if ((head = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
 			tail = head;
@@ -135,6 +135,7 @@ t_list		*read_tetriminoes(int fd)
 			return (NULL);
 		}
 		ft_bzero(tetrimino_str, TETRI_SIZE + 1);
+		tetrimino_count++;
 	}
 	ft_strdel(&tetrimino_str);
 	return (head);

@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:29:46 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/06 14:11:18 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 15:09:44 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	**create_tetrimno_shape(int height, int width);
 void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new);
 void	free_tetrimino(t_tetri **tetri);
 int		xy_to_len(int x, int y);
+t_list	*lstnew_tetri(const char *str, char fill);
 
 /* END STATIC -- TODO: REMOVE LATER */
 #endif
