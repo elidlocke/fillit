@@ -574,4 +574,12 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_int_eq(1, point->x);
 	ck_assert_int_eq(1, point->y);
 	int point_fail = get_next_point(&point, square->rows);	
-	ck_assert_int_eq(point_fail,-1);
+	ck_assert_int_eq(point_fail,0);
+
+#test check_solve_a_square
+	printf("CHECKING SOLVE A SQUARE...\n");
+
+	t_square	*square = create_square(5);
+	t_list		*tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/two_tetriminoes");
+	solve_a_square(square, &tetri_lst);
+	print_str_square(square->rows);
