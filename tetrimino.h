@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:29:46 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/06 15:09:44 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/06 16:47:22 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define NEWLINE '\n'
 # include <string.h>
 # include "points.h"
+# include "square.h"
 
 typedef struct	s_tetri
 {
@@ -26,6 +27,10 @@ typedef struct	s_tetri
 	int			height;
 }				t_tetri;
 t_tetri			*create_tetrimino(const char *raw_shape, const char fill);
+char	**place_a_tetrimino(t_tetri *tetrimino, t_square *square,
+							t_point *point);
+char	**remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
+							t_point *point);
 
 /* STATIC FUNCTIONS TO BE REMOVED LATER */
 int		xy_to_len(int x, int y);

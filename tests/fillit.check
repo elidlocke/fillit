@@ -543,9 +543,22 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 #test check_get_tetri_from_file
 	printf("CHECKING GET TETRIS FROM FILE...\n");
 
-	t_list *tetri_lst;
+	//t_list *tetri_lst;
 
 	//tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
-	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/allshapes");
+	//tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/allshapes");
 	//print_tetrimno((t_tetri *)tetri_lst->content);
-	ft_lstiter(tetri_lst, &print_tetri_lst);
+	//ft_lstiter(tetri_lst, &print_tetri_lst);
+
+#test check_place_tetri
+	printf("CHECKING PLACE TETRIS...\n");
+
+	t_square	*square;
+	t_list		*tetri_lst;
+	t_point		*point;
+
+	point = create_point(6);
+	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
+	square = make_square_struct(10);
+	print_str_square(place_a_tetrimino((t_tetri *)tetri_lst->content,
+					square, point));
