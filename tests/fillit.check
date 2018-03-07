@@ -556,30 +556,40 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 #test check_get_next_point
 	printf("CHECKING GET NEXT POINT...\n");
 
-	t_point		*point = create_point_fromxy(0,0);
+	t_point		*point;
+	t_square	*square;
 
-	t_square	*square = create_square(3);
-	square->rows[0][0]  = 'A';	
-	square->rows[1][0]  = 'A';	
-	square->rows[2][0]  = 'A';	
+	point = create_point(0);
+	square = create_square(3);
+	square->rows[0][0]  = 'A';
+	square->rows[1][0]  = 'A';
+	square->rows[2][0]  = 'A';
 	square->rows[2][1]  = 'A';
-	
-	square->rows[0][1]  = 'B';	
-	square->rows[0][2]  = 'B';	
-	square->rows[1][2]  = 'B';	
+
+	square->rows[0][1]  = 'B';
+	square->rows[0][2]  = 'B';
+	square->rows[1][2]  = 'B';
 	square->rows[2][2]  = 'B';
-	//print_str_square(square->rows);
-	get_next_point(&point, square->rows);	
-	printf("rows start point is x:%d  y:%d\n", point->x, point->y);
+
+	ck_assert_int_eq(0, point->x);
+	ck_assert_int_eq(0, point->y);
+	ck_assert_int_eq(1, get_next_point(&point, square->rows));	
 	ck_assert_int_eq(1, point->x);
 	ck_assert_int_eq(1, point->y);
-	int point_fail = get_next_point(&point, square->rows);	
-	ck_assert_int_eq(point_fail,0);
+	ck_assert_int_eq(get_next_point(&point, square->rows), 0);
+	free_point(&point);
+	free_square(&square);
+
+	ck_assert_int_eq(get_next_point(NULL, NULL), 0);
+	ck_assert_int_eq(get_next_point(&point, square->rows), 1);
+	ck_assert_int_eq(0, point->x);
+	ck_assert_int_eq(0, point->y);
 
 #test check_solve_a_square
 	printf("CHECKING SOLVE A SQUARE...\n");
 
 	t_square	*square = create_square(5);
 	t_list		*tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/two_tetriminoes");
+
 	solve_a_square(square, &tetri_lst);
 	print_str_square(square->rows);

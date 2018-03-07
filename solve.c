@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 18:40:38 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 11:24:30 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 12:25:56 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,28 @@
 
 int	get_next_point(t_point **point, char **square)
 {
+	t_point *new;
+
+	if (!square)
+		return (0);
+	if (!point && (new = create_point(0)))
+	{
+		point = &new;
+		return (1);
+	}
 	(*point)->x = (*point)->x + 1;
 	while (square[(*point)->y] != NULL)
 	{
 		while (square[(*point)->y][(*point)->x] != '\0')
 		{
 			if (square[(*point)->y][(*point)->x] == '.')
-			{
-				return (0);
-			}
+				return (1);
 			(*point)->x = (*point)->x + 1;
 		}
 		(*point)->y = (*point)->y + 1;
 		(*point)->x = 0;
 	}
-	return (-1);
+	return (0);
 }
 
 int solve_a_square(t_square *square, t_list **block)
