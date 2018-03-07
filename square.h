@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:51:01 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 21:31:57 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 11:22:16 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ char		**make_square_str(size_t size);
 t_square	*create_square(size_t size);
 void		print_str_square(char	**square);
 void		free_square(t_square **square);
+void		update_square(t_square **square, char **rows);
 #endif

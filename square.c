@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:36:41 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 21:48:45 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 11:21:56 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ void	free_square(t_square **square)
 	(*square)->rows = NULL;
 	free(*square);
 	*square = NULL;
+}
+
+void	update_square(t_square **square, char **rows)
+{
+	size_t row;
+
+	row = 0;
+	while (row < (*square)->size)
+		ft_strdel(&((*square)->rows[row++]));
+	(*square)->rows = rows;
 }
 
 /*
