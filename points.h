@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 10:25:07 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 09:30:09 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/07 10:34:33 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct	s_point
 	int			y;
 }				t_point;
 t_point			*create_point(int len);
-t_point			*create_point(int x, int y);
+t_point			*create_point_fromxy(int x, int y);
 void			free_point(t_point **point);
 void			free_minmax_points(t_point ***points);
 #endif
