@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 18:40:38 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 12:25:56 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 19:37:53 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,8 @@
 
 int	get_next_point(t_point **point, char **square)
 {
-	t_point *new;
-
 	if (!square)
 		return (0);
-	if (!point && (new = create_point(0)))
-	{
-		point = &new;
-		return (1);
-	}
 	(*point)->x = (*point)->x + 1;
 	while (square[(*point)->y] != NULL)
 	{
@@ -42,51 +35,66 @@ int	get_next_point(t_point **point, char **square)
 	return (0);
 }
 
-int solve_a_square(t_square *square, t_list **block)
+int solve_a_square(t_square *square, t_list **block, t_point *p_start)
 {
-	char	**rows;
-	t_point	*p_start;
+	int found;
+	t_point *tmp;
 
+	found = 0;
 	if (!block || !*block)
 	{
 		print_str_square(square->rows);
 		return (1);
 	}
-	while (block)
+	// FIND XY
+	while ((!(found = check_tetrimino_fits((t_tetri *)(*block)->content, square, p_start)) &&
+					get_next_point(&p_start, square->rows)))
+		;
+	// CANT PLACE A BLOCK
+	if (!found)
+		return (0);
+	// PLACE A BLOCK
+	place_a_tetrimino((t_tetri *)(*block)->content, square, p_start);
+	// RECURSE
+	if (!solve_a_square(square, &((*block)->next), p_start))
 	{
-		// FIND XY
-		while (get_next_point(&p_start, square->rows))
+		// UNDO THE LAST PLACEMENT
+		remove_a_tetrimino((t_tetri *)(*block)->content, square, p_start);
+		tmp = create_point_fromxy(p_start->x, p_start->y);
+		// CALL GET NEXT POINT
+		if (!get_next_point(&p_start, square->rows))
 		{
-			// VALIDATE A BLOCK
-			// IF IT FITS, BREAK
-			if ((rows = place_a_tetrimino((t_tetri *)(*block)->content, square, p_start)))
-				break ;
-		}
-		// CANT PLACE A BLOCK
-		if (!rows)
+			p_start->x = tmp->x;
+			p_start->y = tmp->y;
 			return (0);
-		// PLACE A BLOCK
-		update_square(&square, rows);
-		(*block) = (*block)->next;
-		// RECURSE
-		return (solve_a_square(square, block));
+		}
+		free_point(&tmp);
+		// continue
+		return (solve_a_square(square, block, p_start));
 	}
-	return (0);
+	return (1);
 }
 
 int	solve_squares(t_list **tetri_lst)
 {
 	t_square	*square;
+	t_point		*p_start;
+	t_list		*tetri_lst_tail;
 	size_t		square_size;
 
-	square_size = 2;
+	square_size = 6;
 	if (!(square = create_square(square_size)))
 		return (0);
-	while (!solve_a_square(square, tetri_lst))
+	if (!(p_start = create_point_fromxy(0, 0)))
+		return (0);
+	while ((tetri_lst_tail = *tetri_lst) &&
+			!solve_a_square(square, &tetri_lst_tail, p_start))
 	{
 		free_square(&square);
 		if (!(square = create_square(++square_size)))
 			return (0);
+		p_start->x = 0;
+		p_start->y = 0;
 	}
 	return (1);
 }

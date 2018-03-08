@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 21:35:53 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 17:34:50 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 ** The tetrimino is drawn in the character specified (eg. AAAA).
 */
 
-char	**place_a_tetrimino(t_tetri *tetrimino, t_square *square,
+void	place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 							t_point *point)
 {
 	int		x;
@@ -81,31 +81,26 @@ char	**place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 	char	**str_square;
 
 	y = 0;
-	if (check_tetrimino_fits(tetrimino, square, point) == 1)
+	tetri_shape = tetrimino->shape;
+	str_square = square->rows;
+	while (tetri_shape[y] != NULL)
 	{
-		tetri_shape = tetrimino->shape;
-		str_square = square->rows;
-		while (tetri_shape[y] != NULL)
+		x = 0;
+		while (tetri_shape[y][x] != '\0')
 		{
-			x = 0;
-			while (tetri_shape[y][x] != '\0')
-			{
-				if (tetri_shape[y][x] != '.')
-					str_square[y + point->y][x + point->x] = tetri_shape[y][x];
-				x++;
-			}
-			y++;
+			if (tetri_shape[y][x] != '.')
+				str_square[y + point->y][x + point->x] = tetri_shape[y][x];
+			x++;
 		}
-		return (str_square);
+		y++;
 	}
-	return (NULL);
 }
 
 /*
 ** The function remove_a_tetrimino() removes a tetrimino from the board
 */
 
-char	**remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
+void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
 							t_point *point)
 {
 	int		x;
@@ -129,5 +124,4 @@ char	**remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
 		}
 		y++;
 	}
-	return (str_square);
 }
