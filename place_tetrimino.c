@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/07 20:37:28 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:13:47 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 #include "points.h"
 #include "tetrimino.h"
 #include "square.h"
+
+/*
+** Check if tetrimino's first characters are empty, and return an amount to
+** shift the tetrimino by in the x direction.
+*/
+
+int		tetrimino_xshift(t_tetri *tetri)
+{
+	int x_shift;
+
+	x_shift = 0;
+	while ((tetri->shape)[0][x_shift] == '.')
+	{
+		x_shift++;
+	}
+	return x_shift;
+}
 
 /*
 ** The function check_tetrimino_max() checks if a tetrimino's size will
@@ -25,7 +42,7 @@ int		check_tetrimino_max(t_tetri *tetrimino, t_square *square,
 							t_point *point)
 {
 	if ((point->y + tetrimino->height <= (int)square->size) &&
-		(point->x + tetrimino->width <= (int)square->size))
+		(point->x - tetrimino_xshift(tetrimino) + tetrimino->width <= (int)square->size))
 		return (1);
 	return (0);
 }
@@ -54,7 +71,7 @@ int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 		x = 0;
 		while (tetri_shape[y][x] != '\0')
 		{
-			if (!(str_square[y + point->y][x + point->x] == '.' ||
+			if (!(str_square[y + point->y][x - tetrimino_xshift(tetrimino)  + point->x] == '.' ||
 				tetri_shape[y][x] == '.'))
 				return (0);
 			x++;
@@ -87,12 +104,12 @@ void	place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 		while (tetri_shape[y][x] != '\0')
 		{
 			if (tetri_shape[y][x] != '.' )
-				str_square[y + point->y][x + point->x] = tetri_shape[y][x];
+				str_square[y + point->y][x - tetrimino_xshift(tetrimino) + point->x] = tetri_shape[y][x];
 			x++;
 		}
 		y++;
 	}
-	tetrimino->start->x = point->x;
+	tetrimino->start->x = (point->x) - tetrimino_xshift(tetrimino);
 	tetrimino->start->y = point->y;
 }
 
