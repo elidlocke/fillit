@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 15:30:05 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:46:58 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 int		validate_newlines(int fd, char *tetrimino_str)
 {
 	int newline_placement;
-	char buf[1];
 
 	newline_placement = TETRI_SIZE - 1;
 	while (newline_placement > 0)
@@ -33,10 +32,6 @@ int		validate_newlines(int fd, char *tetrimino_str)
 	}
 	if (tetrimino_str[TETRI_SIZE] != '\n' && tetrimino_str[TETRI_SIZE] != '\0')
 		return (-1);
-	/*
-	else if (tetrimino_str[TETRI_SIZE] == '\n' && read(fd, buf, 1) == -1)
-		return (-1);
-	*/
 	return (0);
 }
 
@@ -82,6 +77,7 @@ t_list		*read_tetriminoes(int fd)
 {
 	int		tetrimino_count;
 	char	*tetrimino_str;
+	int		ends_in_newline;
 	t_list	*tail;
 	t_list	*head;
 
@@ -92,7 +88,15 @@ t_list		*read_tetriminoes(int fd)
 		if (validate_newlines(fd, tetrimino_str) == -1 ||
 			check_tetrimino_count(tetrimino_count + 1) == -1)
 			return (NULL);
-		tetrimino_str[TETRI_SIZE] = '\0';
+		if (tetrimino_str[TETRI_SIZE] != '\0')
+		{
+			ends_in_newline = 1;
+			tetrimino_str[TETRI_SIZE] = '\0';
+		}
+		else
+		{
+			ends_in_newline = 0;
+		}
 		if (tetrimino_count && (tail->next = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
 			tail = tail->next;
 		else if ((head = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
@@ -106,7 +110,7 @@ t_list		*read_tetriminoes(int fd)
 		tetrimino_count++;
 	}
 	ft_strdel(&tetrimino_str);
-	if (tetrimino_count == 0)
+	if (tetrimino_count == 0 || ends_in_newline == 1)
 		return (NULL);
 	return (head);
 }
