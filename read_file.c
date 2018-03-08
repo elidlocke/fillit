@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 15:46:58 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:52:16 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** characters. If invalid, print an error message.
 */
 
-int		validate_newlines(int fd, char *tetrimino_str)
+int		validate_newlines(char *tetrimino_str)
 {
 	int newline_placement;
 
@@ -85,7 +85,7 @@ t_list		*read_tetriminoes(int fd)
 	tetrimino_count = 0;
 	while (read(fd, tetrimino_str, (TETRI_SIZE + 1)))
 	{
-		if (validate_newlines(fd, tetrimino_str) == -1 ||
+		if (validate_newlines(tetrimino_str) == -1 ||
 			check_tetrimino_count(tetrimino_count + 1) == -1)
 			return (NULL);
 		if (tetrimino_str[TETRI_SIZE] != '\0')
@@ -94,9 +94,7 @@ t_list		*read_tetriminoes(int fd)
 			tetrimino_str[TETRI_SIZE] = '\0';
 		}
 		else
-		{
 			ends_in_newline = 0;
-		}
 		if (tetrimino_count && (tail->next = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
 			tail = tail->next;
 		else if ((head = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
