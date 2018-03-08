@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 10:13:47 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:34:06 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		tetrimino_xshift(t_tetri *tetri)
 	{
 		x_shift++;
 	}
-	return x_shift;
+	return (x_shift);
 }
 
 /*
@@ -42,7 +42,8 @@ int		check_tetrimino_max(t_tetri *tetrimino, t_square *square,
 							t_point *point)
 {
 	if ((point->y + tetrimino->height <= (int)square->size) &&
-		(point->x - tetrimino_xshift(tetrimino) + tetrimino->width <= (int)square->size))
+		(point->x - tetrimino_xshift(tetrimino) +
+		tetrimino->width <= (int)square->size))
 		return (1);
 	return (0);
 }
@@ -71,7 +72,8 @@ int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 		x = 0;
 		while (tetri_shape[y][x] != '\0')
 		{
-			if (!(str_square[y + point->y][x - tetrimino_xshift(tetrimino)  + point->x] == '.' ||
+			if (!(str_square[y + point->y][x - tetrimino_xshift(tetrimino) +
+				point->x] == '.' ||
 				tetri_shape[y][x] == '.'))
 				return (0);
 			x++;
@@ -103,8 +105,11 @@ void	place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 		x = 0;
 		while (tetri_shape[y][x] != '\0')
 		{
-			if (tetri_shape[y][x] != '.' )
-				str_square[y + point->y][x - tetrimino_xshift(tetrimino) + point->x] = tetri_shape[y][x];
+			if (tetri_shape[y][x] != '.')
+			{
+				str_square[y + point->y][x - tetrimino_xshift(tetrimino) +
+				point->x] = tetri_shape[y][x];
+			}
 			x++;
 		}
 		y++;
@@ -133,7 +138,10 @@ void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square)
 		while (tetri_shape[y][x] != '\0')
 		{
 			if (tetri_shape[y][x] != '.')
-				str_square[y + tetrimino->start->y][x + tetrimino->start->x] = '.';
+			{
+				str_square[y + tetrimino->start->y]
+				[x + tetrimino->start->x] = '.';
+			}
 			x++;
 		}
 		y++;

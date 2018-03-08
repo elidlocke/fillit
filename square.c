@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:36:41 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/07 11:21:56 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:35:46 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** then initialized to '.'
 */
 
-char	**make_square_str(size_t size)
+char		**make_square_str(size_t size)
 {
 	char	**square;
 	size_t	i;
@@ -42,7 +42,12 @@ char	**make_square_str(size_t size)
 	return (square);
 }
 
-void	free_square(t_square **square)
+/*
+** The function free_square() frees a square structure. Should be called
+** once a square structure is no longer needed.
+*/
+
+void		free_square(t_square **square)
 {
 	size_t row;
 
@@ -57,7 +62,12 @@ void	free_square(t_square **square)
 	*square = NULL;
 }
 
-void	update_square(t_square **square, char **rows)
+/*
+** The function update_square() deletes the rows within a square and then
+** replaces them with the new content in rows.
+*/
+
+void		update_square(t_square **square, char **rows)
 {
 	size_t row;
 
@@ -68,9 +78,11 @@ void	update_square(t_square **square, char **rows)
 }
 
 /*
-** The function make_square_struct() makes a structure for a square to be filled,
-** which contains the size of the square and a string array filled with '.'
+** The function make_square_struct() makes a structure for a square to be
+** filled, which contains the size of the square and a string array filled
+** with '.'.
 */
+
 t_square	*create_square(size_t size)
 {
 	t_square *square;
@@ -85,29 +97,4 @@ t_square	*create_square(size_t size)
 		square->size = size;
 	}
 	return (square);
-}
-
-/*
-** The function print_str_square() takes a character array
-** and prints it out, with a newline after each line.
-*/
-
-void	print_str_square(char **square)
-{
-	int i;
-
-	if (square)
-	{
-		i = 0;
-		while (square[i] != NULL)
-		{
-			ft_putstr(square[i]);
-			ft_putchar('\n');
-			i++;
-		}
-	}
-	else
-	{
-		ft_putstr("square is null\n");
-	}
 }
