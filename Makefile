@@ -6,7 +6,7 @@
 #    By: jpollore <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/04 08:52:07 by jpollore          #+#    #+#              #
-#    Updated: 2018/03/08 11:26:45 by jpollore         ###   ########.fr        #
+#    Updated: 2018/03/08 15:55:19 by jpollore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ OPTION2 = $(OPTION1) $(LIB_OPT) -I$(TEST_HEADER) -L$(TEST_LIBRARY) -lcheck
 all: $(NAME)
 
 $(NAME): $(LIB_NAME)
-	$(CC) $(CLFAGS) $(OPTION1) -c $(CS)
-	$(CC) $(OBJS) $(LIB_OPT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OPTION1) -c $(CS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIB_OPT) -o $(NAME)
 
 clean:
 	/bin/rm -f $(OBJS)

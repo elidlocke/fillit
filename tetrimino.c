@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/08 10:31:41 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 13:53:18 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int		validate_tetrimino(const char *shape, t_point ***points)
 	max_x = 0;
 	while (shape[len])
 	{
+		if (shape[len] != NEWLINE || shape[len] != EMPTY || shape[len] != BLOCK)
+			return (0);
 		if ((len + 1) % 5 == 0 && shape[len] != NEWLINE)
 			return (0);
 		else if (shape[len] == BLOCK)
@@ -68,6 +70,8 @@ int		validate_tetrimino(const char *shape, t_point ***points)
 		}
 		len++;
 	}
+	if (!blocks)
+		return (0);
 	if (max_x > (*points)[1]->x)
 		(*points)[1]->x = max_x;
 	return (1);
