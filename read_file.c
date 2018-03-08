@@ -6,42 +6,13 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 09:32:13 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:03:30 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "read.h"
 #include "tetrimino.h"
-
-/*
-** Check if a file is properly opened. If not, print an error message.
-*/
-
-int		check_file_opened(int fd)
-{
-	if (fd == -1)
-	{
-		ft_putstr("error\n");
-		return (-1);
-	}
-	return (0);
-}
-
-/*
-** Close a file and check if a file is properly closed.
-** If not, print an error message.
-*/
-
-int		close_file(int fd)
-{
-	if (close(fd) == -1)
-	{
-		ft_putstr("error\n");
-		return (-1);
-	}
-	return (0);
-}
 
 /*
 ** Check the formatting of the input tetrimino for newline
@@ -56,16 +27,10 @@ int		validate_newlines(char *tetrimino_str)
 	while ((newline_placement = newline_placement / 5))
 	{
 		if (tetrimino_str[TETRI_SIZE - 1] != '\n')
-		{
-			ft_putstr("error\n");
 			return (-1);
-		}
 	}
 	if (tetrimino_str[TETRI_SIZE] != '\n')
-	{
-		ft_putstr("error\n");
 		return (-1);
-	}
 	return (0);
 }
 
@@ -77,10 +42,7 @@ int		validate_newlines(char *tetrimino_str)
 int		check_tetrimino_count(int count)
 {
 	if (count > 26 || count < 0)
-	{
-		ft_putstr("error\n");
 		return (-1);
-	}
 	return (0);
 }
 
@@ -146,18 +108,16 @@ t_list		*read_tetriminoes(int fd)
 ** and returns them in a linked list.
 */
 
-//note: change return to linked list
 t_list		*get_tetriminoes_from_file(const char *filename)
 {
 	int		fd;
 	t_list	*tetri_lst;
 
-	fd = open(filename, O_RDONLY);
-	if (check_file_opened(fd) == -1)
+	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (NULL);
 	if (!(tetri_lst = read_tetriminoes(fd)))
 		return (NULL);
-	if (close_file(fd) == -1)
+	if ((close(fd) == -1))
 		return (NULL);
 	return (tetri_lst);
 }
