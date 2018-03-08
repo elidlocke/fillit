@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 10:03:30 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:41:09 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ t_list		*get_tetriminoes_from_file(const char *filename)
 	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (NULL);
 	if (!(tetri_lst = read_tetriminoes(fd)))
+	{
+		close(fd);
 		return (NULL);
+	}
 	if ((close(fd) == -1))
 		return (NULL);
 	return (tetri_lst);

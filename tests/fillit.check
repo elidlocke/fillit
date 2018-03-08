@@ -38,6 +38,7 @@ char *g_rshape_i1 = ".#..\n.#..\n.#..\n...#\n";
 
 char *g_rshape_v2 = ".##.\n..##\n....\n....\n";
 char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
+char *g_rshape_i3 = "..#.\n.#..\n.#..\n..#.\n";
 
 char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 char *g_rshape_v4 = "...#\n...#\n...#\n...#\n";
@@ -154,12 +155,15 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 
 	//char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 
+	//char *g_rshape_i3 = "..#.\n.#..\n.#..\n..#.\n";
+
 	int count = 0;
 	int bl_v1[4] = {1, 6, 11, 16};
 	int bl_i1[4] = {1, 6, 11, 18};
 	int bl_v2[4] = {1, 2, 7, 8};
 	int bl_i2[4] = {1, 3, 7, 8};
 	int bl_v3[4] = {0, 1, 5, 6};
+	int bl_i3[4] = {2, 6, 11, 17};
 
 	while(count < 4)
 		ck_assert_int_eq(1, validate_block(g_rshape_v1, bl_v1[count++]));
@@ -180,6 +184,12 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	while(count < 4)
 		ck_assert_int_eq(1, validate_block(g_rshape_v3, bl_v3[count++]));
 
+	count = 0;
+	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++]));
+	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++]));
+	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++]));
+	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++]));
+
 #test check_validate_tetrimino
 	printf("CHECKING VALIDATE TETRIMINO...\n");
 
@@ -190,6 +200,8 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	//char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
 
 	//char *g_rshape_v3 = "##..\n##..\n....\n....\n";
+
+	//char *g_rshape_i3 = "..#.\n.#..\n.#..\n..#.\n";
 
 	t_point **points;
 
@@ -227,11 +239,15 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_ptr_eq(0, points);
 
 	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
-	ck_assert_int_eq(-1, validate_tetrimino(g_rshape_i1, &points));
+	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i1, &points));
 	ck_assert_ptr_eq(points, 0);
 
 	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
-	ck_assert_int_eq(-1, validate_tetrimino(g_rshape_i2, &points));
+	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i2, &points));
+	ck_assert_ptr_eq(0, points);
+
+	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
+	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i3, &points));
 	ck_assert_ptr_eq(0, points);
 
 #test check_create_tetrimno_shape
@@ -451,29 +467,6 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
     ck_assert_ptr_eq(new->rows[i], NULL);
 	ck_assert_int_eq((int)(new->size),10);
 
-#test check_print_str_square
-    printf("CHECKING PRINT STR SQUARE...\n");
-
-	FILE *fp;
-	char *str;
-	t_square *new = create_square(3);
-	char **square_str = new->rows;
-
-	fp = freopen("./tests/redir.txt", "w+", stdout);
-	print_str_square(square_str);
-	rewind(fp);
-	str = (char *)malloc(sizeof(char) * 5);
-	for (int i = 0; i < 3; i++)
-	{
-		fscanf(fp, "%s", str);
-		ck_assert_str_eq(str, "...");
-		bzero(str, 5);
-	}
-	fclose(fp);
-	free(str);
-
-	remove("./tests/redir.txt");
-
 #test check_free_square
 	printf("CHECKING FREE SQUARE..\n");
 
@@ -550,7 +543,7 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	point = create_point(6);
 	tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/basic_input");
 	square = create_square(10);
-	//print_str_square(place_a_tetrimino((t_tetri *)tetri_lst->content,
+	//ft_putstrarr(place_a_tetrimino((t_tetri *)tetri_lst->content,
 	//				square, point));
 
 #test check_get_next_point
@@ -573,58 +566,61 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 
 	ck_assert_int_eq(0, point->x);
 	ck_assert_int_eq(0, point->y);
-	ck_assert_int_eq(1, get_next_point(&point, square->rows));	
+	ck_assert_int_eq(1, get_next_point(&point, square->rows));
 	ck_assert_int_eq(1, point->x);
 	ck_assert_int_eq(1, point->y);
 	ck_assert_int_eq(get_next_point(&point, square->rows), 0);
 	free_point(&point);
 	free_square(&square);
 
-	ck_assert_int_eq(get_next_point(NULL, NULL), 0);
-	ck_assert_int_eq(get_next_point(&point, square->rows), 1);
-	ck_assert_int_eq(0, point->x);
-	ck_assert_int_eq(0, point->y);
+	//ck_assert_int_eq(get_next_point(NULL, NULL), 0);
+	//ck_assert_int_eq(get_next_point(&point, square->rows), 1);
+	//ck_assert_int_eq(0, point->x);
+	//ck_assert_int_eq(0, point->y);
 
 #test check_solve_a_square
 	printf("CHECKING SOLVE A SQUARE...\n");
 
 	printf("\n\n****ERROR MAPS ****\n\n");
-	
+
 	printf("\n**5x5**\n");
 	solve("./test_input/invalid_maps/5x5");
-	
+
 	printf("\n**30 TETRIMINOES**\n");
 	solve("./test_input/invalid_maps/30tetriminoes");
-	
+
 	printf("\n**NO NEWLINE AT END**\n");
 	solve("./test_input/invalid_maps/nonewlineatend");
-	
+
 	printf("\n**STARTS WITH NEWLINE**\n");
 	solve("./test_input/invalid_maps/startswithnewline");
-	
+
 	printf("\n**STUCK TOGETHER**\n");
 	solve("./test_input/invalid_maps/stucktogether");
-	
+
 	printf("\n**CHECKER ERROR 0**\n");
 	solve("./test_input/invalid_maps/checker_errorfile0");
-	
+
 	printf("\n**CHECKER ERROR 1**\n");
 	solve("./test_input/invalid_maps/checker_errorfile1");
-	
+
 	printf("\n\n****VALID MAPS ****\n\n");
 
 	printf("\n**MANAGE OVERLAP**\n");
 	solve("./test_input/valid_maps/manage_overlap");
-	
+
 	printf("\n**BASIC INPUT**\n");
 	solve("./test_input/valid_maps/basic_input");
-	
+
 	printf("\n**PG10 EXAMPLE**\n");
 	solve("./test_input/valid_maps/pg10_example");
-	
+
 	printf("\n**PG11 EXAMPLE**\n");
 	solve("./test_input/valid_maps/pg11_example");
-	
+
 	printf("\n**STICK TETRI**\n");
 	solve("./test_input/valid_maps/stick_tetri");
+
+	printf("\n**INVALID MAPS 1**\n");
+	solve("./test_input/invalid_maps/invalid_shape_1");
 
