@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 18:40:38 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 20:51:09 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 10:41:11 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int solve_a_square(t_square *square, t_list **block, t_point *p_start)
 	found = 0;
 	if (!block || !*block)
 	{
-		print_str_square(square->rows);
+		ft_putstrarr(square->rows);
 		return (1);
 	}
 	// FIND XY
