@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/07 20:03:40 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 20:37:28 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 	char	**tetri_shape;
 	char	**str_square;
 
-	y = 0;
 	tetri_shape = tetrimino->shape;
 	str_square = square->rows;
 	if (check_tetrimino_max(tetrimino, square, point) != 1)
 		return (0);
+	y = 0;
 	while (tetri_shape[y] != NULL)
 	{
 		x = 0;
@@ -56,9 +56,7 @@ int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 		{
 			if (!(str_square[y + point->y][x + point->x] == '.' ||
 				tetri_shape[y][x] == '.'))
-			{
 				return (0);
-			}
 			x++;
 		}
 		y++;
@@ -118,9 +116,7 @@ void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square)
 		while (tetri_shape[y][x] != '\0')
 		{
 			if (tetri_shape[y][x] != '.')
-			{
 				str_square[y + tetrimino->start->y][x + tetrimino->start->x] = '.';
-			}
 			x++;
 		}
 		y++;
