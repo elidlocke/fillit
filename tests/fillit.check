@@ -588,8 +588,43 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 #test check_solve_a_square
 	printf("CHECKING SOLVE A SQUARE...\n");
 
-	t_square	*square = create_square(5);
-	t_list		*tetri_lst = get_tetriminoes_from_file("./test_input/valid_maps/two_tetriminoes");
+	printf("\n\n****ERROR MAPS ****\n\n");
+	
+	printf("\n**5x5**\n");
+	solve("./test_input/invalid_maps/5x5");
+	
+	printf("\n**30 TETRIMINOES**\n");
+	solve("./test_input/invalid_maps/30tetriminoes");
+	
+	printf("\n**NO NEWLINE AT END**\n");
+	solve("./test_input/invalid_maps/nonewlineatend");
+	
+	printf("\n**STARTS WITH NEWLINE**\n");
+	solve("./test_input/invalid_maps/startswithnewline");
+	
+	printf("\n**STUCK TOGETHER**\n");
+	solve("./test_input/invalid_maps/stucktogether");
+	
+	printf("\n**CHECKER ERROR 0**\n");
+	solve("./test_input/invalid_maps/checker_errorfile0");
+	
+	printf("\n**CHECKER ERROR 1**\n");
+	solve("./test_input/invalid_maps/checker_errorfile1");
+	
+	printf("\n\n****VALID MAPS ****\n\n");
 
-	solve_a_square(square, &tetri_lst);
-	print_str_square(square->rows);
+	printf("\n**MANAGE OVERLAP**\n");
+	solve("./test_input/valid_maps/manage_overlap");
+	
+	printf("\n**BASIC INPUT**\n");
+	solve("./test_input/valid_maps/basic_input");
+	
+	printf("\n**PG10 EXAMPLE**\n");
+	solve("./test_input/valid_maps/pg10_example");
+	
+	printf("\n**PG11 EXAMPLE**\n");
+	solve("./test_input/valid_maps/pg11_example");
+	
+	printf("\n**STICK TETRI**\n");
+	solve("./test_input/valid_maps/stick_tetri");
+

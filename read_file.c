@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/06 21:15:56 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 09:32:13 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		check_file_opened(int fd)
 {
 	if (fd == -1)
 	{
-		ft_putstr("error: file not opened\n");
+		ft_putstr("error\n");
 		return (-1);
 	}
 	return (0);
@@ -37,7 +37,7 @@ int		close_file(int fd)
 {
 	if (close(fd) == -1)
 	{
-		ft_putstr("error: file not closed\n");
+		ft_putstr("error\n");
 		return (-1);
 	}
 	return (0);
@@ -57,13 +57,13 @@ int		validate_newlines(char *tetrimino_str)
 	{
 		if (tetrimino_str[TETRI_SIZE - 1] != '\n')
 		{
-			ft_putstr("error: tetrimino is not 4x4\n");
+			ft_putstr("error\n");
 			return (-1);
 		}
 	}
 	if (tetrimino_str[TETRI_SIZE] != '\n')
 	{
-		ft_putstr("error: no newline after tetrimino block\n");
+		ft_putstr("error\n");
 		return (-1);
 	}
 	return (0);
@@ -78,7 +78,7 @@ int		check_tetrimino_count(int count)
 {
 	if (count > 26 || count < 0)
 	{
-		ft_putstr("error: too many, or too few tetriminoes\n");
+		ft_putstr("error\n");
 		return (-1);
 	}
 	return (0);
