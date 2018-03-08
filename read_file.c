@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 10:41:09 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 11:11:04 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ t_list		*read_tetriminoes(int fd)
 		tetrimino_count++;
 	}
 	ft_strdel(&tetrimino_str);
+	if (tetrimino_count == 0)
+		return (NULL);
 	return (head);
 }
 
