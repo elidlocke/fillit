@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:21:09 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/07 17:34:50 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/07 20:03:40 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 int		check_tetrimino_max(t_tetri *tetrimino, t_square *square,
 							t_point *point)
 {
-	if ((point->y + tetrimino->height < (int)square->size) &&
-		(point->x + tetrimino->width < (int)square->size))
+	if ((point->y + tetrimino->height <= (int)square->size) &&
+		(point->x + tetrimino->width <= (int)square->size))
 		return (1);
 	return (0);
 }
@@ -88,20 +88,21 @@ void	place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 		x = 0;
 		while (tetri_shape[y][x] != '\0')
 		{
-			if (tetri_shape[y][x] != '.')
+			if (tetri_shape[y][x] != '.' )
 				str_square[y + point->y][x + point->x] = tetri_shape[y][x];
 			x++;
 		}
 		y++;
 	}
+	tetrimino->start->x = point->x;
+	tetrimino->start->y = point->y;
 }
 
 /*
 ** The function remove_a_tetrimino() removes a tetrimino from the board
 */
 
-void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
-							t_point *point)
+void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square)
 {
 	int		x;
 	int		y;
@@ -118,7 +119,7 @@ void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square,
 		{
 			if (tetri_shape[y][x] != '.')
 			{
-				str_square[y + point->y][x + point->x] = '.';
+				str_square[y + tetrimino->start->y][x + tetrimino->start->x] = '.';
 			}
 			x++;
 		}
