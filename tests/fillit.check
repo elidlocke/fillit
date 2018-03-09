@@ -41,6 +41,9 @@ char *g_rshape_i2 = ".#.#\n..##\n....\n....\n";
 char *g_rshape_i3 = "..#.\n.#..\n.#..\n..#.\n";
 char *g_rshape_i4 = "....\n.#..\n.#..\n.#..\n";
 char *g_rshape_i5 = "..A.\n..A.\n..A.\n..A.\n";
+char *g_rshape_i6 = "....\n....\n....\n....\n";
+char *g_rshape_i7 = ".#..\n.#..\n..#.\n..#.\n";
+char *g_rshape_i8 = ".##.\n....\n.##.\n....\n";
 
 char *g_rshape_v3 = "##..\n##..\n....\n....\n";
 char *g_rshape_v4 = "...#\n...#\n...#\n...#\n";
@@ -160,6 +163,7 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	//char *g_rshape_i3 = "..#.\n.#..\n.#..\n..#.\n";
 
 	int count = 0;
+	int sides = 0;
 	int bl_v1[4] = {1, 6, 11, 16};
 	int bl_i1[4] = {1, 6, 11, 18};
 	int bl_v2[4] = {1, 2, 7, 8};
@@ -168,29 +172,29 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	int bl_i3[4] = {2, 6, 11, 17};
 
 	while(count < 4)
-		ck_assert_int_eq(1, validate_block(g_rshape_v1, bl_v1[count++]));
+		ck_assert_int_eq(1, validate_block(g_rshape_v1, bl_v1[count++], &sides));
 	count = 0;
 	while(count < 3)
-		ck_assert_int_eq(1, validate_block(g_rshape_i1, bl_i1[count++]));
-	ck_assert_int_eq(0, validate_block(g_rshape_i1, bl_i1[count]));
+		ck_assert_int_eq(1, validate_block(g_rshape_i1, bl_i1[count++], &sides));
+	ck_assert_int_eq(0, validate_block(g_rshape_i1, bl_i1[count], &sides));
 
 	count = 0;
 	while(count < 4)
-		ck_assert_int_eq(1, validate_block(g_rshape_v2, bl_v2[count++]));
+		ck_assert_int_eq(1, validate_block(g_rshape_v2, bl_v2[count++], &sides));
 	count = 0;
-	ck_assert_int_eq(0, validate_block(g_rshape_i2, bl_i2[count++]));
+	ck_assert_int_eq(0, validate_block(g_rshape_i2, bl_i2[count++], &sides));
 	while (count < 4)
-		ck_assert_int_eq(1, validate_block(g_rshape_i2, bl_i2[count++]));
+		ck_assert_int_eq(1, validate_block(g_rshape_i2, bl_i2[count++], &sides));
 
 	count = 0;
 	while(count < 4)
-		ck_assert_int_eq(1, validate_block(g_rshape_v3, bl_v3[count++]));
+		ck_assert_int_eq(1, validate_block(g_rshape_v3, bl_v3[count++], &sides));
 
 	count = 0;
-	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++]));
-	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++]));
-	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++]));
-	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++]));
+	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++], &sides));
+	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++], &sides));
+	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++], &sides));
+	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++], &sides));
 
 #test check_validate_tetrimino
 	printf("CHECKING VALIDATE TETRIMINO...\n");
@@ -258,6 +262,18 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 
 	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
 	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i5, &points));
+	ck_assert_ptr_eq(0, points);
+
+	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
+	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i6, &points));
+	ck_assert_ptr_eq(0, points);
+
+	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
+	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i7, &points));
+	ck_assert_ptr_eq(0, points);
+
+	points = (t_point **)ft_memalloc(sizeof(*points) * 2);
+	ck_assert_int_eq(0, validate_tetrimino(g_rshape_i8, &points));
 	ck_assert_ptr_eq(0, points);
 
 #test check_create_tetrimno_shape

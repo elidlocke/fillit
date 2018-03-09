@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:29:46 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 19:48:56 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:57:02 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square);
 
 /* STATIC FUNCTIONS TO BE REMOVED LATER */
 int		xy_to_len(int x, int y);
-int		validate_block(const char *shape, int len);
+int		validate_block(const char *shape, int len, int *sides);
 int		validate_tetrimino(const char *shape, t_point ***points);
 char	**create_tetrimno_shape(int height, int width);
 void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new);
