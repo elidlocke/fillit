@@ -6,9 +6,12 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 20:41:47 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 20:49:47 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:53:11 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+#include "tetrimino.h"
 
 /*
 ** creates a new linked list element for a tetrimino

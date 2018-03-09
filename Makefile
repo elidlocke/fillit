@@ -6,7 +6,7 @@
 #    By: jpollore <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/04 08:52:07 by jpollore          #+#    #+#              #
-#    Updated: 2018/03/08 15:55:19 by jpollore         ###   ########.fr        #
+#    Updated: 2018/03/08 20:52:08 by enennige         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ TS_NAME = check.out
 TEST_HEADER = $$HOME/.brew/include/
 TEST_LIBRARY = $$HOME/.brew/lib/
 TEST = tests/
-CS = main.c read_file.c tetrimino.c points.c place_tetrimino.c square.c solve.c
+CS = main.c read_file.c tetrimino.c points.c place_tetrimino.c square.c solve.c\
+	 lst_util.c
 TS = $(filter-out main.c, $(CS))
 TC = fillit.check
 CFLAGS = -Wall -Wextra -Werror
