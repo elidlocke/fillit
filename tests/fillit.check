@@ -17,7 +17,7 @@
 
 void		free_tetrimino(t_tetri **tetri);
 int			validate_block(const char *shape, int len, int *sides);
-void	fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new);
+void		fill_tetrimino(const char *raw_shape, const char fill, t_tetri *new);
 char		**create_tetrimno_shape(int height, int width);
 
 t_point     *create_point_fromxy(int x, int y)
