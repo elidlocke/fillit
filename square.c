@@ -6,7 +6,7 @@
 /*   By: enennige <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 15:36:41 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 10:35:46 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/09 14:34:58 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** then initialized to '.'
 */
 
-char		**make_square_str(size_t size)
+static char	**make_square_str(size_t size)
 {
 	char	**square;
 	size_t	i;
