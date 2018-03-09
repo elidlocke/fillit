@@ -6,17 +6,17 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 10:25:07 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 11:05:01 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:56:18 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef POINTS_H
-#define POINTS_H
+# define POINTS_H
 # include <string.h>
 
 typedef struct	s_point
 {
-	int 		x;
+	int			x;
 	int			y;
 }				t_point;
 t_point			*create_point(int len);
