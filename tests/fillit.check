@@ -28,6 +28,11 @@ t_point     *create_point_fromxy(int x, int y)
     return (NULL);
 }
 
+int		xy_to_len(int x, int y)
+{
+	return (x + y * 5);
+}
+
 void	print_tetrimno(t_tetri *tetri)
 {
 	int y;
