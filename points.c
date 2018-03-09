@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 10:24:32 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/07 10:34:22 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:38:10 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,4 @@ void		free_minmax_points(t_point ***points)
 	free_point(*points);
 	free(*points);
 	*points = NULL;
-}
-
-/*
-** Make a point, based on an x and y coordinate
-*/
-t_point		*create_point_fromxy(int x, int y)
-{
-	t_point *point;
-	point = (t_point *)ft_memalloc(sizeof(*point));
-	if (point)
-	{
-		point->x = x;
-		point->y = y;
-		return (point);
-	}
-	return (NULL);
 }

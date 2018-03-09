@@ -15,6 +15,19 @@
 #include "tetrimino.h"
 #include "solve.h"
 
+t_point     *create_point_fromxy(int x, int y)
+{
+    t_point *point;
+    point = (t_point *)ft_memalloc(sizeof(*point));
+    if (point)
+    {
+        point->x = x;
+        point->y = y;
+        return (point);
+    }
+    return (NULL);
+}
+
 void	print_tetrimno(t_tetri *tetri)
 {
 	int y;

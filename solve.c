@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 18:40:38 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/08 20:29:17 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:38:35 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	solve_squares(t_list **tetri_lst)
 	square_size = 2;
 	if (!(square = create_square(square_size)))
 		return (0);
-	if (!(p_start = create_point_fromxy(0, 0)))
+	if (!(p_start = create_point(0)))
 		return (0);
 	while ((tetri_lst_tail = *tetri_lst) &&
 			!solve_a_square(square, &tetri_lst_tail, p_start))
