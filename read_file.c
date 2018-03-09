@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 19:54:19 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:31:29 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,27 +106,29 @@ int		lstadd_tetri(t_list **head, t_list **tail, char *t_str, int t_count)
 ** to a linked list as it goes
 */
 
-t_list	*read_tetriminoes(int fd, int *tetri_cnt)
+t_list	*read_tetriminoes(int fd)
 {
 	char	*tetrimino_str;
 	int		ends_in_newline;
+	int		tetri_cnt;
 	t_list	*tail;
 	t_list	*head;
 
 	tetrimino_str = ft_strnew(TETRI_SIZE + 1);
+	tetri_cnt = 0;
 	while (read(fd, tetrimino_str, (TETRI_SIZE + 1)))
 	{
 		if (validate_newlines(tetrimino_str, &ends_in_newline) == -1 ||
-			check_tetrimino_count(*tetri_cnt + 1) == -1)
+			check_tetrimino_count(tetri_cnt + 1) == -1)
 			return (NULL);
 		tetrimino_str[TETRI_SIZE] = '\0';
-		if (lstadd_tetri(&head, &tail, tetrimino_str, *tetri_cnt) == -1)
+		if (lstadd_tetri(&head, &tail, tetrimino_str, tetri_cnt) == -1)
 			return (NULL);
 		ft_bzero(tetrimino_str, TETRI_SIZE + 1);
-		(*tetri_cnt)++;
+		tetri_cnt++;
 	}
 	ft_strdel(&tetrimino_str);
-	if ((*tetri_cnt) == 0 || ends_in_newline == 1)
+	if (tetri_cnt == 0 || ends_in_newline == 1)
 		return (NULL);
 	return (head);
 }
@@ -136,14 +138,14 @@ t_list	*read_tetriminoes(int fd, int *tetri_cnt)
 ** and returns them in a linked list.
 */
 
-t_list	*get_tetriminoes_from_file(const char *filename, int *tetri_cnt)
+t_list	*get_tetriminoes_from_file(const char *filename)
 {
 	int		fd;
 	t_list	*tetri_lst;
 
 	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (NULL);
-	if (!(tetri_lst = read_tetriminoes(fd, tetri_cnt)))
+	if (!(tetri_lst = read_tetriminoes(fd)))
 	{
 		close(fd);
 		return (NULL);
