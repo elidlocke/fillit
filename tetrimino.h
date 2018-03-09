@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:29:46 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/08 16:57:02 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 20:47:02 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void	place_a_tetrimino(t_tetri *tetrimino, t_square *square,
 int		check_tetrimino_fits(t_tetri *tetrimino, t_square *square,
 							t_point *point);
 void	remove_a_tetrimino(t_tetri *tetrimino, t_square *square);
+t_list  *lstnew_tetri(const char *str, char fill);
+void    lstdel_tetri(void *content, size_t content_size);
+int     lstadd_tetri(t_list **head, t_list **tail, char *t_str, int t_count);
 
 /* STATIC FUNCTIONS TO BE REMOVED LATER */
 int		xy_to_len(int x, int y);
