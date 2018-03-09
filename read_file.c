@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 16:20:04 by enennige         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:59:51 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** newline or not
 */
 
-int			validate_newlines(char *tetrimino_str, int *ends_in_newline)
+int		validate_newlines(char *tetrimino_str, int *ends_in_newline)
 {
 	int newline_placement;
 
@@ -45,7 +45,7 @@ int			validate_newlines(char *tetrimino_str, int *ends_in_newline)
 ** less than 1 tetrimino.
 */
 
-int			check_tetrimino_count(int count)
+int		check_tetrimino_count(int count)
 {
 	if (count > 26 || count < 0)
 		return (-1);
@@ -53,11 +53,10 @@ int			check_tetrimino_count(int count)
 }
 
 /*
-** Reads a file that has already been opened and if the file
-** is valid, returns a t_list with the individual tetriminoes.
+** creates a new linked list element for a tetrimino
 */
 
-t_list		*lstnew_tetri(const char *str, char fill)
+t_list	*lstnew_tetri(const char *str, char fill)
 {
 	t_tetri *tetri;
 	t_list	*node;
@@ -76,13 +75,38 @@ t_list		*lstnew_tetri(const char *str, char fill)
 ** Frees a list of tetriminoes
 */
 
-void		lstdel_tetri(void *content, size_t content_size)
+void	lstdel_tetri(void *content, size_t content_size)
 {
 	(void)content_size;
 	free_tetrimino((t_tetri **)&content);
 }
 
-t_list		*read_tetriminoes(int fd)
+/*
+** The function lstadd_tetri() adds a tetrimino to the tlist of tetriminoes,
+** assigning the correct letter for the tetriminoes' order.
+*/
+
+int		lstadd_tetri(t_list **head, t_list **tail, char *t_str, int t_count)
+{
+	if (t_count && ((*tail)->next =
+		lstnew_tetri(t_str, 'A' + t_count)))
+		*tail = (*tail)->next;
+	else if ((*head = lstnew_tetri(t_str, 'A' + t_count)))
+		*tail = *head;
+	else
+	{
+		ft_lstdel(head, &lstdel_tetri);
+		return (-1);
+	}
+	return (0);
+}
+
+/*
+** Reads the tetriminoes from a file that has already been opened, adding them
+** to a linked list as it goes
+*/
+
+t_list	*read_tetriminoes(int fd)
 {
 	int		tetrimino_count;
 	char	*tetrimino_str;
@@ -98,16 +122,8 @@ t_list		*read_tetriminoes(int fd)
 			check_tetrimino_count(tetrimino_count + 1) == -1)
 			return (NULL);
 		tetrimino_str[TETRI_SIZE] = '\0';
-		if (tetrimino_count && (tail->next =
-			lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
-			tail = tail->next;
-		else if ((head = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
-			tail = head;
-		else
-		{
-			ft_lstdel(&head, &lstdel_tetri);
+		if (lstadd_tetri(&head, &tail, tetrimino_str, tetrimino_count) == -1)
 			return (NULL);
-		}
 		ft_bzero(tetrimino_str, TETRI_SIZE + 1);
 		tetrimino_count++;
 	}
@@ -122,7 +138,7 @@ t_list		*read_tetriminoes(int fd)
 ** and returns them in a linked list.
 */
 
-t_list		*get_tetriminoes_from_file(const char *filename)
+t_list	*get_tetriminoes_from_file(const char *filename)
 {
 	int		fd;
 	t_list	*tetri_lst;
