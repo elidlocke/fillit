@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:55:20 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/08 13:53:18 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:24:57 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int		validate_block(const char *shape, int len)
 	return (0);
 }
 
+int		invalid_block(t_point ***points)
+{
+	free_minmax_points(points);
+	return (0);
+}
+
 int		validate_tetrimino(const char *shape, t_point ***points)
 {
 	size_t	len;
@@ -50,17 +56,13 @@ int		validate_tetrimino(const char *shape, t_point ***points)
 	max_x = 0;
 	while (shape[len])
 	{
-		if (shape[len] != NEWLINE || shape[len] != EMPTY || shape[len] != BLOCK)
-			return (0);
-		if ((len + 1) % 5 == 0 && shape[len] != NEWLINE)
-			return (0);
+		if (((len + 1) % 5 == 0 && shape[len] != NEWLINE) ||
+		(shape[len] != NEWLINE && shape[len] != EMPTY && shape[len] != BLOCK))
+			return (invalid_block(points));
 		else if (shape[len] == BLOCK)
 		{
 			if (blocks > 4 || !validate_block(shape, len))
-			{
-				free_minmax_points(points);
-				return (0);
-			}
+				return (invalid_block(points));
 			max_x = (int)(len % 5) > max_x ? (int)(len % 5 ) : max_x;
 			if (blocks == 0 || blocks == 3)
 				(*points)[blocks == 0 ? 0 : 1] = create_point(len);
