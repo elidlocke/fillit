@@ -6,7 +6,7 @@
 #    By: jpollore <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/04 08:52:07 by jpollore          #+#    #+#              #
-#    Updated: 2018/03/09 15:19:05 by enennige         ###   ########.fr        #
+#    Updated: 2018/03/09 15:40:33 by enennige         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ clean:
 fclean: clean
 	/bin/rm -f $(NAME)
 
-re: fclean__lib fclean all
+re: fclean_lib fclean all
 
 fclean_lib:
 	make fclean -C libft/
