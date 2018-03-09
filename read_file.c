@@ -6,7 +6,7 @@
 /*   By: enennige <enennige@student.42.us.or>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 10:42:53 by enennige          #+#    #+#             */
-/*   Updated: 2018/03/08 15:52:16 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:20:04 by enennige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 #include "tetrimino.h"
 
 /*
-** Check the formatting of the input tetrimino for newline
-** characters. If invalid, print an error message.
+** Checks the formatting of the input tetrimino for newline characters. Flips
+** the value of ends_in_newline depending on whether the tetrimino ends in a
+** newline or not
 */
 
-int		validate_newlines(char *tetrimino_str)
+int			validate_newlines(char *tetrimino_str, int *ends_in_newline)
 {
 	int newline_placement;
 
@@ -32,6 +33,10 @@ int		validate_newlines(char *tetrimino_str)
 	}
 	if (tetrimino_str[TETRI_SIZE] != '\n' && tetrimino_str[TETRI_SIZE] != '\0')
 		return (-1);
+	if (tetrimino_str[TETRI_SIZE] != '\0')
+		*ends_in_newline = 1;
+	else
+		*ends_in_newline = 0;
 	return (0);
 }
 
@@ -40,7 +45,7 @@ int		validate_newlines(char *tetrimino_str)
 ** less than 1 tetrimino.
 */
 
-int		check_tetrimino_count(int count)
+int			check_tetrimino_count(int count)
 {
 	if (count > 26 || count < 0)
 		return (-1);
@@ -52,7 +57,7 @@ int		check_tetrimino_count(int count)
 ** is valid, returns a t_list with the individual tetriminoes.
 */
 
-t_list	*lstnew_tetri(const char *str, char fill)
+t_list		*lstnew_tetri(const char *str, char fill)
 {
 	t_tetri *tetri;
 	t_list	*node;
@@ -66,6 +71,10 @@ t_list	*lstnew_tetri(const char *str, char fill)
 	}
 	return (node);
 }
+
+/*
+** Frees a list of tetriminoes
+*/
 
 void		lstdel_tetri(void *content, size_t content_size)
 {
@@ -85,17 +94,12 @@ t_list		*read_tetriminoes(int fd)
 	tetrimino_count = 0;
 	while (read(fd, tetrimino_str, (TETRI_SIZE + 1)))
 	{
-		if (validate_newlines(tetrimino_str) == -1 ||
+		if (validate_newlines(tetrimino_str, &ends_in_newline) == -1 ||
 			check_tetrimino_count(tetrimino_count + 1) == -1)
 			return (NULL);
-		if (tetrimino_str[TETRI_SIZE] != '\0')
-		{
-			ends_in_newline = 1;
-			tetrimino_str[TETRI_SIZE] = '\0';
-		}
-		else
-			ends_in_newline = 0;
-		if (tetrimino_count && (tail->next = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
+		tetrimino_str[TETRI_SIZE] = '\0';
+		if (tetrimino_count && (tail->next =
+			lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
 			tail = tail->next;
 		else if ((head = lstnew_tetri(tetrimino_str, 'A' + tetrimino_count)))
 			tail = head;
