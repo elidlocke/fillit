@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 13:24:35 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/06 21:16:09 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:54:44 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@
 # include <fcntl.h>
 # define TETRI_SIZE 20
 
-t_list		*get_tetriminoes_from_file(const char *filename);
+t_list		*get_tetriminoes_from_file(const char *filename, int *tetri_cnt);
 #endif

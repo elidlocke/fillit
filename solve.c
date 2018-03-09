@@ -6,7 +6,7 @@
 /*   By: jpollore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 18:40:38 by jpollore          #+#    #+#             */
-/*   Updated: 2018/03/08 11:49:29 by jpollore         ###   ########.fr       */
+/*   Updated: 2018/03/08 19:55:19 by jpollore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,14 @@ int	solve_a_square(t_square *square, t_list **block, t_point *p_start)
 	return (1);
 }
 
-int	solve_squares(t_list **tetri_lst)
+int	solve_squares(t_list **tetri_lst, int blocks)
 {
 	t_square	*square;
 	t_point		*p_start;
 	t_list		*tetri_lst_tail;
 	size_t		square_size;
 
+	(void)blocks;
 	square_size = 2;
 	if (!(square = create_square(square_size)))
 		return (0);
@@ -92,10 +93,12 @@ int	solve_squares(t_list **tetri_lst)
 int	solve(const char *filename)
 {
 	t_list		*tetri_lst;
+	int			tetri_cnt;
 
-	if (!(tetri_lst = get_tetriminoes_from_file(filename)))
+	tetri_cnt = 0;
+	if (!(tetri_lst = get_tetriminoes_from_file(filename, &tetri_cnt)))
 		return (0);
-	if (!solve_squares(&tetri_lst))
+	if (!solve_squares(&tetri_lst, tetri_cnt))
 		return (0);
 	return (1);
 }
