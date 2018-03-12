@@ -173,6 +173,7 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_ptr_eq(0, points);
 
 #test check_validate_block
+	/*
 	printf("CHECKING VALIDATE BLOCK...\n");
 
 	//char *g_rshape_v1 = ".#..\n.#..\n.#..\n.#..\n";
@@ -218,6 +219,7 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++], &sides));
 	ck_assert_int_eq(1, validate_block(g_rshape_i3, bl_i3[count++], &sides));
 	ck_assert_int_eq(0, validate_block(g_rshape_i3, bl_i3[count++], &sides));
+	*/
 
 #test check_validate_tetrimino
 	printf("CHECKING VALIDATE TETRIMINO...\n");
@@ -328,6 +330,7 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_ptr_eq(res[4], NULL);
 
 #test check_fill_tetrimno
+	/*
 	printf("CHECKING FILL TETRIMNO...\n");
 
 	t_point *point;
@@ -376,6 +379,7 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_ptr_eq(new->shape[1], 0);
 	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
+	*/
 
 #test check_create_tetrimino
 	printf("CHECKING CREATE TETRIMINO...\n");
@@ -466,30 +470,6 @@ char *g_rshape_v7 = "#...\n##..\n#...\n....\n";
 	ck_assert_ptr_eq(new->shape[3], 0);
 	free_tetrimino(&new);
 	ck_assert_ptr_eq(new, 0);
-
-#test check_make_square
-    printf("CHECKING MAKE SQUARE STR...\n");
-
-    char **square_10x10 = make_square_str(10);
-    char answer[11][11] = { "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            "..........",
-                            {0} };
-
-    int i = 0;
-    while (i < 10)
-    {
-        ck_assert_str_eq(square_10x10[i], answer[i]);
-        i++;
-    }
-    ck_assert_ptr_eq(square_10x10[i], NULL);
 
 #test check_create_square
     printf("CHECKING MAKE SQUARE STRUCT...\n");
