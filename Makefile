@@ -6,7 +6,7 @@
 #    By: jpollore <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/04 08:52:07 by jpollore          #+#    #+#              #
-#    Updated: 2018/03/09 15:40:33 by enennige         ###   ########.fr        #
+#    Updated: 2018/03/11 17:18:31 by enennige         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CS += solve.c lst_util.c tetri_utils.c
 TS = $(filter-out main.c, $(CS))
 TC = fillit.check
 CFLAGS = -Wall -Wextra -Werror
-LIB_OPT = -L./libft -lft
+LIB_OPT = -L. -lft
 OBJS = $(patsubst %.c, %.o, $(CS))
 TEST_CHECK = $(addprefix $(TEST), $(TC))
 TEST_SRC = $(addsuffix .c, $(TEST_CHECK))
@@ -32,7 +32,6 @@ OPTION2 = $(OPTION1) $(LIB_OPT) -I$(TEST_HEADER) -L$(TEST_LIBRARY) -lcheck
 all: $(NAME)
 
 $(NAME):
-	make -C libft/
 	$(CC) $(CFLAGS) $(OPTION1) -c $(CS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIB_OPT) -o $(NAME)
 
@@ -42,10 +41,7 @@ clean:
 fclean: clean
 	/bin/rm -f $(NAME)
 
-re: fclean_lib fclean all
-
-fclean_lib:
-	make fclean -C libft/
+re: fclean all
 
 make_test: clean_test
 	checkmk $(TEST_CHECK) > $(TEST_SRC)
